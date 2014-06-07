@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		27F13AAF5BC7426380BA1F41 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C078DAE0314A5E84B7FB0F /* libPods.a */; };
+		30072C0819439F4B009088B5 /* music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 30072C0719439F4B009088B5 /* music.m4a */; };
+		30072C0C1943AB1E009088B5 /* WILRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30072C0B1943AB1E009088B5 /* WILRecordViewController.m */; };
+		30072C101943AC3A009088B5 /* Organ Run.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 30072C0D1943AC3A009088B5 /* Organ Run.m4a */; };
+		30072C111943AC3A009088B5 /* Southern Rock Drums.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 30072C0E1943AC3A009088B5 /* Southern Rock Drums.m4a */; };
+		30072C121943AC3A009088B5 /* Southern Rock Organ.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 30072C0F1943AC3A009088B5 /* Southern Rock Organ.m4a */; };
+		30072C151943AD3D009088B5 /* TPOscilloscopeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 30072C141943AD3D009088B5 /* TPOscilloscopeLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3071613B1943913D00EB8FFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3071613A1943913D00EB8FFF /* Foundation.framework */; };
 		3071613D1943913D00EB8FFF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3071613C1943913D00EB8FFF /* CoreGraphics.framework */; };
 		3071613F1943913D00EB8FFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3071613E1943913D00EB8FFF /* UIKit.framework */; };
@@ -20,9 +26,9 @@
 		307161561943913E00EB8FFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3071613E1943913D00EB8FFF /* UIKit.framework */; };
 		3071615E1943913E00EB8FFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3071615C1943913E00EB8FFF /* InfoPlist.strings */; };
 		307161601943913E00EB8FFF /* WilsonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3071615F1943913E00EB8FFF /* WilsonTests.m */; };
-		CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA25A221943988F00E68E14 /* WILRecordingManager.m */; };
 		3071616C194396C000EB8FFF /* WILAudioRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3071616A194396C000EB8FFF /* WILAudioRecordController.m */; };
 		3071616D194396C000EB8FFF /* WILAudioRecordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3071616B194396C000EB8FFF /* WILAudioRecordController.xib */; };
+		CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA25A221943988F00E68E14 /* WILRecordingManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +43,14 @@
 
 /* Begin PBXFileReference section */
 		27C078DAE0314A5E84B7FB0F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		30072C0719439F4B009088B5 /* music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = music.m4a; sourceTree = "<group>"; };
+		30072C0A1943AB1E009088B5 /* WILRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILRecordViewController.h; sourceTree = "<group>"; };
+		30072C0B1943AB1E009088B5 /* WILRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILRecordViewController.m; sourceTree = "<group>"; };
+		30072C0D1943AC3A009088B5 /* Organ Run.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Organ Run.m4a"; sourceTree = "<group>"; };
+		30072C0E1943AC3A009088B5 /* Southern Rock Drums.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Southern Rock Drums.m4a"; sourceTree = "<group>"; };
+		30072C0F1943AC3A009088B5 /* Southern Rock Organ.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Southern Rock Organ.m4a"; sourceTree = "<group>"; };
+		30072C131943AD3D009088B5 /* TPOscilloscopeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOscilloscopeLayer.h; sourceTree = "<group>"; };
+		30072C141943AD3D009088B5 /* TPOscilloscopeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOscilloscopeLayer.m; sourceTree = "<group>"; };
 		307161371943913D00EB8FFF /* Wilson.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wilson.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3071613A1943913D00EB8FFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3071613C1943913D00EB8FFF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -47,19 +61,18 @@
 		307161481943913D00EB8FFF /* Wilson-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Wilson-Prefix.pch"; sourceTree = "<group>"; };
 		307161491943913D00EB8FFF /* WILAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WILAppDelegate.h; sourceTree = "<group>"; };
 		3071614A1943913D00EB8FFF /* WILAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WILAppDelegate.m; sourceTree = "<group>"; };
-		3071614C1943913D00EB8FFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3071614C1943913D00EB8FFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Wilson/Images.xcassets; sourceTree = "<group>"; };
 		307161521943913D00EB8FFF /* WilsonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WilsonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		307161531943913D00EB8FFF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3071615B1943913E00EB8FFF /* WilsonTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WilsonTests-Info.plist"; sourceTree = "<group>"; };
 		3071615D1943913E00EB8FFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3071615F1943913E00EB8FFF /* WilsonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WilsonTests.m; sourceTree = "<group>"; };
-		49B8B98CB1BD495F932760C4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		CDA25A211943988F00E68E14 /* WILRecordingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILRecordingManager.h; sourceTree = "<group>"; };
-		CDA25A221943988F00E68E14 /* WILRecordingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILRecordingManager.m; sourceTree = "<group>"; };
 		30716169194396C000EB8FFF /* WILAudioRecordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILAudioRecordController.h; sourceTree = "<group>"; };
 		3071616A194396C000EB8FFF /* WILAudioRecordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILAudioRecordController.m; sourceTree = "<group>"; };
 		3071616B194396C000EB8FFF /* WILAudioRecordController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WILAudioRecordController.xib; sourceTree = "<group>"; };
 		49B8B98CB1BD495F932760C4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		CDA25A211943988F00E68E14 /* WILRecordingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILRecordingManager.h; sourceTree = "<group>"; };
+		CDA25A221943988F00E68E14 /* WILRecordingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILRecordingManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,10 +100,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30072C0619439F4B009088B5 /* Audio Files */ = {
+			isa = PBXGroup;
+			children = (
+				30072C0D1943AC3A009088B5 /* Organ Run.m4a */,
+				30072C0E1943AC3A009088B5 /* Southern Rock Drums.m4a */,
+				30072C0F1943AC3A009088B5 /* Southern Rock Organ.m4a */,
+				30072C0719439F4B009088B5 /* music.m4a */,
+			);
+			name = "Audio Files";
+			path = "Wilson/Audio Files";
+			sourceTree = "<group>";
+		};
+		30072C161943AD78009088B5 /* JUNK */ = {
+			isa = PBXGroup;
+			children = (
+				30716169194396C000EB8FFF /* WILAudioRecordController.h */,
+				3071616A194396C000EB8FFF /* WILAudioRecordController.m */,
+				3071616B194396C000EB8FFF /* WILAudioRecordController.xib */,
+			);
+			name = JUNK;
+			sourceTree = "<group>";
+		};
 		3071612E1943913D00EB8FFF = {
 			isa = PBXGroup;
 			children = (
 				307161401943913D00EB8FFF /* Wilson */,
+				3071614C1943913D00EB8FFF /* Images.xcassets */,
+				30072C0619439F4B009088B5 /* Audio Files */,
+				307161411943913D00EB8FFF /* Supporting Files */,
 				307161591943913E00EB8FFF /* WilsonTests */,
 				307161391943913D00EB8FFF /* Frameworks */,
 				307161381943913D00EB8FFF /* Products */,
@@ -124,13 +162,13 @@
 			children = (
 				307161491943913D00EB8FFF /* WILAppDelegate.h */,
 				3071614A1943913D00EB8FFF /* WILAppDelegate.m */,
-				3071614C1943913D00EB8FFF /* Images.xcassets */,
-				307161411943913D00EB8FFF /* Supporting Files */,
 				CDA25A211943988F00E68E14 /* WILRecordingManager.h */,
 				CDA25A221943988F00E68E14 /* WILRecordingManager.m */,
-				30716169194396C000EB8FFF /* WILAudioRecordController.h */,
-				3071616A194396C000EB8FFF /* WILAudioRecordController.m */,
-				3071616B194396C000EB8FFF /* WILAudioRecordController.xib */,
+				30072C0A1943AB1E009088B5 /* WILRecordViewController.h */,
+				30072C0B1943AB1E009088B5 /* WILRecordViewController.m */,
+				30072C131943AD3D009088B5 /* TPOscilloscopeLayer.h */,
+				30072C141943AD3D009088B5 /* TPOscilloscopeLayer.m */,
+				30072C161943AD78009088B5 /* JUNK */,
 			);
 			path = Wilson;
 			sourceTree = "<group>";
@@ -144,6 +182,7 @@
 				307161481943913D00EB8FFF /* Wilson-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			path = Wilson;
 			sourceTree = "<group>";
 		};
 		307161591943913E00EB8FFF /* WilsonTests */ = {
@@ -244,7 +283,11 @@
 			files = (
 				3071616D194396C000EB8FFF /* WILAudioRecordController.xib in Resources */,
 				307161451943913D00EB8FFF /* InfoPlist.strings in Resources */,
+				30072C101943AC3A009088B5 /* Organ Run.m4a in Resources */,
+				30072C111943AC3A009088B5 /* Southern Rock Drums.m4a in Resources */,
+				30072C0819439F4B009088B5 /* music.m4a in Resources */,
 				3071614D1943913D00EB8FFF /* Images.xcassets in Resources */,
+				30072C121943AC3A009088B5 /* Southern Rock Organ.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,8 +339,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30072C151943AD3D009088B5 /* TPOscilloscopeLayer.m in Sources */,
 				CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */,
 				307161471943913D00EB8FFF /* main.m in Sources */,
+				30072C0C1943AB1E009088B5 /* WILRecordViewController.m in Sources */,
 				3071616C194396C000EB8FFF /* WILAudioRecordController.m in Sources */,
 				3071614B1943913D00EB8FFF /* WILAppDelegate.m in Sources */,
 			);

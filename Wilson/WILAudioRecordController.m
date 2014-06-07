@@ -7,6 +7,8 @@
 //
 
 #import "WILAudioRecordController.h"
+#import "AEAudioController.h"
+#import "AEAudioFilePlayer.h"
 
 ///////////////////////////////////////////////////////////////
 
@@ -42,6 +44,7 @@ static const NSTimeInterval kPowerAnimationDuration = 0.09; // slightly less tha
 @property (strong) AVAudioRecorder *audioRecorder;
 @property (strong) NSTimer *powerSamplingTimer;
 @property (strong) NSString *filenameUniqueString;
+@property AEAudioController *audioController;
 
 @end
 
@@ -108,8 +111,29 @@ static const NSTimeInterval kDRMinRecordingLength = 1;
 //                NSString *str = [NSString stringWithFormat:@"Error: %@ : %d", [@__FILE__ lastPathComponent], __LINE__];
             }
         }
+        
+        [self amazing];
     }
     return self;
+}
+
+- (void)amazing
+{
+    AEAudioController *z = [[AEAudioController alloc]
+    initWithAudioDescription:[AEAudioController nonInterleaved16BitStereoAudioDescription]
+     inputEnabled:YES];
+    
+    NSURL *file = [[NSBundle mainBundle] URLForResource:@"music" withExtension:@"m4a"];
+    NSParameterAssert(file);
+    AEAudioFilePlayer *loop = [AEAudioFilePlayer audioFilePlayerWithURL:file
+                                          audioController:z
+                                                    error:NULL];
+    
+    [z start:nil];
+    
+    self.audioController = z;
+    
+    
 }
 
 - (void)dealloc
