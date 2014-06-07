@@ -9,6 +9,7 @@
 #import "WILRecordViewController.h"
 #import "TPOscilloscopeLayer.h"
 #import "WILPadView.h"
+#import "WILAudioFilterPickerController.h"
 
 @interface WILRecordViewController ()
 
@@ -111,6 +112,7 @@
     
     [self scopeUISetup];
     [self padViewSetup];
+    [self audioFilterPickerSetup];
 
 }
 
@@ -177,6 +179,24 @@
     NSParameterAssert(loop);
     
     loop.channelIsMuted = !loop.channelIsMuted;
+}
+
+#pragma mark - Audio Filter
+
+- (void)audioFilterPickerSetup {
+    
+    WILAudioFilterPickerController *filterPicker = [[WILAudioFilterPickerController alloc] initWithCollectionViewLayout:[WILAudioFilterPickerController preferredLayout]];
+    
+    [self addChildViewController:filterPicker];
+    
+    CGFloat collectionHeight = [WILAudioFilterPickerController preferredHeight];
+    filterPicker.view.frame = CGRectMake(0,
+                                         CGRectGetHeight(self.view.bounds) - collectionHeight,
+                                         CGRectGetWidth(self.view.bounds),
+                                         collectionHeight);
+    
+    [self.view addSubview:filterPicker.view];
+    
 }
 
 @end
