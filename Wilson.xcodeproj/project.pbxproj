@@ -26,8 +26,7 @@
 		307161561943913E00EB8FFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3071613E1943913D00EB8FFF /* UIKit.framework */; };
 		3071615E1943913E00EB8FFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3071615C1943913E00EB8FFF /* InfoPlist.strings */; };
 		307161601943913E00EB8FFF /* WilsonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3071615F1943913E00EB8FFF /* WilsonTests.m */; };
-		3071616C194396C000EB8FFF /* WILAudioRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3071616A194396C000EB8FFF /* WILAudioRecordController.m */; };
-		3071616D194396C000EB8FFF /* WILAudioRecordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3071616B194396C000EB8FFF /* WILAudioRecordController.xib */; };
+		4F0310F21943B19E00807CFC /* WILAudioFilterPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0310F11943B19E00807CFC /* WILAudioFilterPickerController.m */; };
 		CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA25A221943988F00E68E14 /* WILRecordingManager.m */; };
 /* End PBXBuildFile section */
 
@@ -67,10 +66,9 @@
 		3071615B1943913E00EB8FFF /* WilsonTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WilsonTests-Info.plist"; sourceTree = "<group>"; };
 		3071615D1943913E00EB8FFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3071615F1943913E00EB8FFF /* WilsonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WilsonTests.m; sourceTree = "<group>"; };
-		30716169194396C000EB8FFF /* WILAudioRecordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILAudioRecordController.h; sourceTree = "<group>"; };
-		3071616A194396C000EB8FFF /* WILAudioRecordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILAudioRecordController.m; sourceTree = "<group>"; };
-		3071616B194396C000EB8FFF /* WILAudioRecordController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WILAudioRecordController.xib; sourceTree = "<group>"; };
 		49B8B98CB1BD495F932760C4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		4F0310F01943B19E00807CFC /* WILAudioFilterPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILAudioFilterPickerController.h; sourceTree = "<group>"; };
+		4F0310F11943B19E00807CFC /* WILAudioFilterPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILAudioFilterPickerController.m; sourceTree = "<group>"; };
 		CDA25A211943988F00E68E14 /* WILRecordingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILRecordingManager.h; sourceTree = "<group>"; };
 		CDA25A221943988F00E68E14 /* WILRecordingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILRecordingManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,16 +108,6 @@
 			);
 			name = "Audio Files";
 			path = "Wilson/Audio Files";
-			sourceTree = "<group>";
-		};
-		30072C161943AD78009088B5 /* JUNK */ = {
-			isa = PBXGroup;
-			children = (
-				30716169194396C000EB8FFF /* WILAudioRecordController.h */,
-				3071616A194396C000EB8FFF /* WILAudioRecordController.m */,
-				3071616B194396C000EB8FFF /* WILAudioRecordController.xib */,
-			);
-			name = JUNK;
 			sourceTree = "<group>";
 		};
 		3071612E1943913D00EB8FFF = {
@@ -168,7 +156,8 @@
 				30072C0B1943AB1E009088B5 /* WILRecordViewController.m */,
 				30072C131943AD3D009088B5 /* TPOscilloscopeLayer.h */,
 				30072C141943AD3D009088B5 /* TPOscilloscopeLayer.m */,
-				30072C161943AD78009088B5 /* JUNK */,
+				4F0310F01943B19E00807CFC /* WILAudioFilterPickerController.h */,
+				4F0310F11943B19E00807CFC /* WILAudioFilterPickerController.m */,
 			);
 			path = Wilson;
 			sourceTree = "<group>";
@@ -281,7 +270,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3071616D194396C000EB8FFF /* WILAudioRecordController.xib in Resources */,
 				307161451943913D00EB8FFF /* InfoPlist.strings in Resources */,
 				30072C101943AC3A009088B5 /* Organ Run.m4a in Resources */,
 				30072C111943AC3A009088B5 /* Southern Rock Drums.m4a in Resources */,
@@ -343,7 +331,7 @@
 				CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */,
 				307161471943913D00EB8FFF /* main.m in Sources */,
 				30072C0C1943AB1E009088B5 /* WILRecordViewController.m in Sources */,
-				3071616C194396C000EB8FFF /* WILAudioRecordController.m in Sources */,
+				4F0310F21943B19E00807CFC /* WILAudioFilterPickerController.m in Sources */,
 				3071614B1943913D00EB8FFF /* WILAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

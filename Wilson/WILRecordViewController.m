@@ -8,6 +8,7 @@
 
 #import "WILRecordViewController.h"
 #import "TPOscilloscopeLayer.h"
+#import "WILAudioFilterPickerController.h"
 
 @interface WILRecordViewController ()
 
@@ -99,6 +100,8 @@
     // Do any additional setup after loading the view.
     
     [self scopeUISetup];
+    
+    [self audioFilterPickerSetup];
 
 }
 
@@ -137,6 +140,24 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Private Methods
+
+- (void)audioFilterPickerSetup {
+    
+    WILAudioFilterPickerController *filterPicker = [[WILAudioFilterPickerController alloc] initWithCollectionViewLayout:[WILAudioFilterPickerController preferredLayout]];
+    
+    [self addChildViewController:filterPicker];
+    
+    CGFloat collectionHeight = [WILAudioFilterPickerController preferredHeight];
+    filterPicker.view.frame = CGRectMake(0,
+                                         CGRectGetHeight(self.view.bounds) - collectionHeight,
+                                         CGRectGetWidth(self.view.bounds),
+                                         collectionHeight);
+    
+    [self.view addSubview:filterPicker.view];
+    
 }
 
 /*
