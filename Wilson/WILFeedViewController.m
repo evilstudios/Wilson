@@ -13,7 +13,7 @@
 #import "CSStickyHeaderFlowLayout.h"
 #import "MBProgressHUD.h"
 #import <Parse/Parse.h>
-
+#import "WILPlayViewController.h"
 #import "NSSortDescriptor+WilsonRank.h"
 
 @interface WILFeedViewController ()
@@ -74,6 +74,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.playController.view.frame = CGRectMake(0, 0, 320, 200);
     [self addChildViewController:self.playController];
     [self.view addSubview:self.playController.view];
+    self.playController.view.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -145,6 +146,12 @@ static NSString * const reuseIdentifier = @"Cell";
     
     cell.object = obj;
     cell.delegate = self;
+    
+    if ( [cell.contentView viewWithTag:88] ) {
+        /// remove player from cell. reuse.
+        [self.playController stopPlaying];
+        [self.playController.view removeFromSuperview];
+    }
 
     
     NSLog(@"cell? %@, cell.downVote %@, cell.downVote.titleLabel %@, cell.downVote.titleLabel.text %@", cell, cell.downVote, cell.downVote.titleLabel, cell.downVote.titleLabel.text);
@@ -255,7 +262,13 @@ static NSString * const reuseIdentifier = @"Cell";
     PFObject *object = self.recordings[indexPath.row];
     NSLog(@"Play! %@", object.objectId);
     
+    [self.playController stopPlaying];
     [self.playController play:object];
+    self.playController.view.tag = 88;
+    self.playController.view.hidden = NO;
+    
+    [cell.contentView addSubview:self.playController.view];
+    self.playController.view.frame = CGRectMake(0, 0, 320, 100);
 }
 
 

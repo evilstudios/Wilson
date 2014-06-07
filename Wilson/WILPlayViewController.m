@@ -47,7 +47,6 @@
 {
     NSParameterAssert(object);
     
-//    [self.audioController start:NULL];
     
     self.object = object;
     
@@ -111,7 +110,9 @@
         self.loop = loop;
         
         self.oscilliscope.frame = self.view.bounds; // HACK to get frame right. no autoresizing on this CALayer :( todo
-        
+       
+        [self.audioController start:NULL];
+
     });
 }
 
