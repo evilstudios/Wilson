@@ -8,6 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "WILAppDelegate.h"
+#import "WILFeedViewController.h"
 #import "WILRecordViewController.h"
 
 @implementation WILAppDelegate
@@ -31,8 +32,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    
-    WILRecordViewController *vc = [[WILRecordViewController alloc] initWithNibName:nil bundle:nil];
+    // WILRecordViewController *vc = [[WILRecordViewController alloc] initWithNibName:nil bundle:nil];
+    WILFeedViewController *vc = [[WILFeedViewController alloc] initWithStickyHeaderFlowLayout];
     self.window.rootViewController = vc;
     
     return YES;
