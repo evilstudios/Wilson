@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class WILFeedViewController;
+@class PFObject;
 
 @interface WILCell : UICollectionViewCell
 
@@ -17,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *downVote;
 
 @property (weak, nonatomic) WILFeedViewController *delegate;
+@property (weak, nonatomic) PFObject *object;
 
 @end
