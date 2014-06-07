@@ -6,12 +6,25 @@
 //  Copyright (c) 2014 Team Wilson. All rights reserved.
 //
 
+#import <Parse/Parse.h>
 #import "WILAppDelegate.h"
 
 @implementation WILAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Parse setApplicationId:@"hQN9iXqr0K23bmE8dk64Z52JZzIf0VCaAKqHNLkH"
+                  clientKey:@"aHSX67W4GoHhstgf8x18cIkiBxYJxMlvbsM6GShG"];
+    
+    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+        if (error) {
+            NSLog(@"Anonymous login failed.");
+        } else {
+            NSLog(@"Anonymous user logged in.");
+        }
+    }];
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
