@@ -17,7 +17,11 @@
 #import <DEDelayFilter.h>
 #import <DEDistortionFilter.h>
 #import <DEReverbFilter.h>
-#import <DEVarispeedFilter.h>
+#import <DEDynamicsProcessorFilter.h>
+#import <DEHighPassFilter.h>
+#import <DEHighShelfFilter.h>
+#import <DELowPassFilter.h>
+
 #import <MBProgressHUD.h>
 
 @interface WILRecordViewController ()
@@ -82,8 +86,12 @@
                                  @"filter": @(WILAudioFilterCustomBandPass)},
                                @{@"name": @"Distortion",
                                  @"filter": @(WILAudioFilterCustomDistortion)},
-                               @{@"name": @"Reverb",
-                                 @"filter": @(WILAudioFilterCustomReverb)}];
+                               @{@"name": @"Delay",
+                                 @"filter": @(WILAudioFilterCustomDelay)},
+                               @{@"name": @"High Pass",
+                                 @"filter": @(WILAudioFilterCustomHighPass)},
+                               @{@"name": @"Low Pass",
+                                 @"filter": @(WILAudioFilterCustomLowPass)},];
         
     }
     return self;
@@ -450,12 +458,16 @@
             newFilter = [DEDistortionFilter filterWithAudioController:self.audioController];
             break;
             
-        case WILAudioFilterCustomReverb:
-            newFilter = [DEReverbFilter filterWithAudioController:self.audioController];
+        case WILAudioFilterCustomDelay:
+            newFilter = [DEDelayFilter filterWithAudioController:self.audioController];
             break;
             
-        case WILAudioFilterCustomVarispeed:
-            newFilter = [DEVarispeedFilter filterWithAudioController:self.audioController];
+        case WILAudioFilterCustomHighPass:
+            newFilter = [DEHighPassFilter filterWithAudioController:self.audioController];
+            break;
+            
+        case WILAudioFilterCustomLowPass:
+            newFilter = [DELowPassFilter filterWithAudioController:self.audioController];
             break;
             
         case WILAudioFilterNone:
