@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "WILAppDelegate.h"
 #import "WILAudioRecordController.h"
+#import "WILFeedViewController.h"
 
 @implementation WILAppDelegate
 
@@ -31,8 +32,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    
-    WILAudioRecordController *vc = [[WILAudioRecordController alloc] initWithNibName:nil bundle:nil];
+//    WILAudioRecordController *vc = [[WILAudioRecordController alloc] initWithNibName:nil bundle:nil];
+    WILFeedViewController *vc = [[WILFeedViewController alloc] initWithStickyHeaderFlowLayout];
+//    WILFeedViewController *other = [[WILFeedViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
     self.window.rootViewController = vc;
     
     return YES;
