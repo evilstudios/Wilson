@@ -8,6 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "WILAppDelegate.h"
+#import "WILAudioRecordController.h"
 #import "WILRecordViewController.h"
 
 @implementation WILAppDelegate

@@ -39,7 +39,7 @@ static void audioCallback(id THIS, AEAudioController *audioController, void *sou
     _ringBuffer = (float*)calloc(kRingBufferLength, sizeof(float));
     _scratchBuffer = (float*)malloc(kRingBufferLength * sizeof(float) * 2);
     self.contentsScale = [[UIScreen mainScreen] scale];
-    self.lineColor = [UIColor blackColor];
+    self.lineColor = [UIColor whiteColor];
     
     // Disable animating view refreshes
     self.actions = @{@"contents": [NSNull null]};
