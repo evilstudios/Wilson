@@ -17,7 +17,7 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 
 @interface WILAudioFilterPickerController ()
 
-@property (nonatomic, strong) NSArray *availableFilters;
+@property (nonatomic, strong) NSArray *filters;
 
 @end
 
@@ -31,10 +31,10 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     if (self) {
         // Custom initialization
         self.selectedFilter = WILAudioFilterNone;
-        self.availableFilters = @[@(WILAudioFilterCustomDelay),
-                                  @(WILAudioFilterCustomDistortion),
-                                  @(WILAudioFilterCustomReverb),
-                                  @(WILAudioFilterCustomVarispeed)];
+        self.filters = @[@(WILAudioFilterCustomDelay),
+                         @(WILAudioFilterCustomDistortion),
+                         @(WILAudioFilterCustomReverb),
+                         @(WILAudioFilterCustomVarispeed)];
     }
     return self;
 }
@@ -90,7 +90,7 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.availableFilters.count;
+    return self.filters.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -100,5 +100,11 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 }
 
 #pragma mark - UICollectionView Delegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    self.selectedFilter = [[self.filters objectAtIndex:indexPath.row] integerValue];
+    
+}
 
 @end
