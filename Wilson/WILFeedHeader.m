@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Jamz Tang. All rights reserved.
 //
 
+#import "WILFeedViewController.h"
 #import "WILFeedHeader.h"
 #import "CSStickyHeaderFlowLayoutAttributes.h"
 
@@ -28,6 +29,15 @@
     }
 
     [UIView commitAnimations];
+    
+}
+
+- (IBAction)openRecordUI:(id)sender {
+    [self.delegate openRecordUI];
+}
+
+- (IBAction)openHelpUI:(id)sender {
+    [self.delegate openHelpUI];
 }
 
 @end
