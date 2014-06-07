@@ -15,6 +15,8 @@ typedef NS_ENUM(NSInteger, WILRecordingVote) {
 
 @interface WILRecordingManager : NSObject
 
++(instancetype)sharedManager;
+
 - (void)list:(void(^)(NSArray*,NSError*))completionHandler;
 
 - (void)dataForRecording:(id)recording completionHandler:(void(^)(NSData*, NSError*))completionHandler;
