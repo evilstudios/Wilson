@@ -17,7 +17,11 @@
 #import <DEDelayFilter.h>
 #import <DEDistortionFilter.h>
 #import <DEReverbFilter.h>
-#import <DEVarispeedFilter.h>
+#import <DEDynamicsProcessorFilter.h>
+#import <DEHighPassFilter.h>
+#import <DEHighShelfFilter.h>
+#import <DELowPassFilter.h>
+
 #import <MBProgressHUD.h>
 
 @interface WILRecordViewController ()
@@ -52,6 +56,8 @@
 @property (nonatomic, retain) UIButton *oneshotButton;
 @property (nonatomic, retain) UIButton *oneshotAudioUnitButton;
 
+@property (nonatomic, retain) UIButton *dismissButton;
+
 // Pads
 @property (nonatomic) NSArray *pads;
 @property (nonatomic) NSMutableArray *loops;
@@ -80,8 +86,12 @@
                                  @"filter": @(WILAudioFilterCustomBandPass)},
                                @{@"name": @"Distortion",
                                  @"filter": @(WILAudioFilterCustomDistortion)},
-                               @{@"name": @"Reverb",
-                                 @"filter": @(WILAudioFilterCustomReverb)}];
+                               @{@"name": @"Delay",
+                                 @"filter": @(WILAudioFilterCustomDelay)},
+                               @{@"name": @"High Pass",
+                                 @"filter": @(WILAudioFilterCustomHighPass)},
+                               @{@"name": @"Low Pass",
+                                 @"filter": @(WILAudioFilterCustomLowPass)},];
         
     }
     return self;
@@ -171,9 +181,24 @@
     self.uploadButton.frame = CGRectMake(220,300,100,44);
     self.uploadButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     
+    
+    // dismiss button
+    self.dismissButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.dismissButton setTitle:@"Dismiss" forState:UIControlStateNormal];
+    [self.dismissButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+    self.dismissButton.frame = CGRectMake(110,350,100,44);
+    self.dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+
+    
     [self.view addSubview:self.recordButton];
     [self.view addSubview:self.playButton];
     [self.view addSubview:self.uploadButton];
+    [self.view addSubview:self.dismissButton];
+}
+
+- (void)dismiss:(id)sender
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)record:(id)sender {
@@ -433,12 +458,16 @@
             newFilter = [DEDistortionFilter filterWithAudioController:self.audioController];
             break;
             
-        case WILAudioFilterCustomReverb:
-            newFilter = [DEReverbFilter filterWithAudioController:self.audioController];
+        case WILAudioFilterCustomDelay:
+            newFilter = [DEDelayFilter filterWithAudioController:self.audioController];
             break;
             
-        case WILAudioFilterCustomVarispeed:
-            newFilter = [DEVarispeedFilter filterWithAudioController:self.audioController];
+        case WILAudioFilterCustomHighPass:
+            newFilter = [DEHighPassFilter filterWithAudioController:self.audioController];
+            break;
+            
+        case WILAudioFilterCustomLowPass:
+            newFilter = [DELowPassFilter filterWithAudioController:self.audioController];
             break;
             
         case WILAudioFilterNone:

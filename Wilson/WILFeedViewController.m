@@ -17,12 +17,15 @@
 #import "MBProgressHUD.h"
 #import "NSSortDescriptor+WilsonRank.h"
 #import <Parse/Parse.h>
+#import "WILPlayViewController.h"
+#import "NSSortDescriptor+WilsonRank.h"
 
 @interface WILFeedViewController ()
 
 @property (nonatomic, strong) NSArray *recordings;
 @property (nonatomic, strong) UINib *headerNib;
 @property (nonatomic, strong) UINib *cellNib;
+@property (nonatomic) WILPlayViewController *playController;
 
 @end
 
@@ -71,6 +74,11 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerNib:self.cellNib forCellWithReuseIdentifier:reuseIdentifier];
     
     // Do any additional setup after loading the view.
+    self.playController = [[WILPlayViewController alloc] initWithNibName:nil bundle:nil];
+    self.playController.view.frame = CGRectMake(0, 0, 320, 200);
+    [self addChildViewController:self.playController];
+    [self.view addSubview:self.playController.view];
+    self.playController.view.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -141,6 +149,12 @@ static NSString * const reuseIdentifier = @"Cell";
     
     cell.object = obj;
     cell.delegate = self;
+    
+    if ( [cell.contentView viewWithTag:88] ) {
+        /// remove player from cell. reuse.
+        [self.playController stopPlaying];
+        [self.playController.view removeFromSuperview];
+    }
 
     return cell;
 }
@@ -262,6 +276,14 @@ static NSString * const reuseIdentifier = @"Cell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     PFObject *object = self.recordings[indexPath.row];
     NSLog(@"Play! %@", object.objectId);
+    
+    [self.playController stopPlaying];
+    [self.playController play:object];
+    self.playController.view.tag = 88;
+    self.playController.view.hidden = NO;
+    
+    [cell.contentView addSubview:self.playController.view];
+    self.playController.view.frame = CGRectMake(0, 0, 320, 100);
 }
 
 # pragma mark Header delegate methods

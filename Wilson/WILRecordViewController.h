@@ -13,9 +13,10 @@
 typedef NS_ENUM(NSUInteger, WILAudioFilter) {
     WILAudioFilterNone,
     WILAudioFilterCustomBandPass,
+    WILAudioFilterCustomDelay,
     WILAudioFilterCustomDistortion,
-    WILAudioFilterCustomReverb,
-    WILAudioFilterCustomVarispeed
+    WILAudioFilterCustomHighPass,
+    WILAudioFilterCustomLowPass
 };
 
 ////////////////////////////////////////////////////////////////////////////////
