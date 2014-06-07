@@ -10,6 +10,7 @@
 #import "TPOscilloscopeLayer.h"
 #import "WILPadView.h"
 #import "WILAudioFilterPickerController.h"
+#import "AERecorder.h"
 
 #import <DEDelayFilter.h>
 #import <DEDistortionFilter.h>
@@ -34,11 +35,14 @@
 @property (nonatomic, retain) CALayer *inputLevelLayer;
 @property (nonatomic, retain) CALayer *outputLevelLayer;
 
+// Recording
+@property (nonatomic) NSString *recordingFilename;
+@property (nonatomic, strong) AERecorder *recorder;
+@property (nonatomic, retain) AEAudioFilePlayer *player;
+
 
 // Misc
 @property (nonatomic, assign) NSTimer *levelsTimer;
-//@property (nonatomic, retain) AERecorder *recorder;
-@property (nonatomic, retain) AEAudioFilePlayer *player;
 @property (nonatomic, retain) UIButton *recordButton;
 @property (nonatomic, retain) UIButton *playButton;
 @property (nonatomic, retain) UIButton *oneshotButton;
@@ -82,13 +86,14 @@
     [self.audioController start:NULL];
     
     
-    NSArray *loops = @[@"Southern Rock Drums", @"Southern Rock Organ"];
+    NSArray *loops = @[@"Southern Rock Drums", @"Southern Rock Organ", @"drum", @"snapper"];
+    NSArray *extensions = @[@"m4a", @"m4a", @"wav",@"wav"];
     
     self.loops = [NSMutableArray new];
     
     [loops enumerateObjectsUsingBlock:^(NSString *filename, NSUInteger idx, BOOL *stop) {
         
-        AEAudioFilePlayer *loop = [AEAudioFilePlayer audioFilePlayerWithURL:[[NSBundle mainBundle] URLForResource:filename withExtension:@"m4a"]
+        AEAudioFilePlayer *loop = [AEAudioFilePlayer audioFilePlayerWithURL:[[NSBundle mainBundle] URLForResource:filename withExtension:[extensions objectAtIndex:idx]]
                                                audioController:_audioController
                                                          error:NULL];
         loop.volume = 1.0;
@@ -128,7 +133,117 @@
     [self scopeUISetup];
     [self padViewSetup];
     [self audioFilterPickerSetup];
+    [self playbackButtonSetup];
+}
 
+#pragma mark - Recording
+
+- (void)playbackButtonSetup {
+    
+    // record button
+    self.recordButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_recordButton setTitle:@"Record" forState:UIControlStateNormal];
+    [_recordButton setTitle:@"Stop" forState:UIControlStateSelected];
+    [_recordButton addTarget:self action:@selector(record:) forControlEvents:UIControlEventTouchUpInside];
+    _recordButton.frame = CGRectMake(0, 300, 100, 44);
+    _recordButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+    
+    // play button
+    self.playButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_playButton setTitle:@"Play" forState:UIControlStateNormal];
+    [_playButton setTitle:@"Stop" forState:UIControlStateSelected];
+    [_playButton addTarget:self action:@selector(play:) forControlEvents:UIControlEventTouchUpInside];
+    _playButton.frame = CGRectMake(110,300,100,44);
+    _playButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    
+    
+    [self.view addSubview:self.recordButton];
+    [self.view addSubview:self.playButton];
+}
+
+- (void)record:(id)sender {
+    
+    if ( _recorder ) {
+        
+        // save
+        [_recorder finishRecording];
+        [_audioController removeOutputReceiver:_recorder];
+        [_audioController removeInputReceiver:_recorder];
+        self.recorder = nil;
+        _recordButton.selected = NO;
+        
+        [self recordingFinishedSuccess:self.recordingFilename];
+        self.recordingFilename = nil;
+        
+    } else {
+        
+        // start recording
+        self.recorder = [[AERecorder alloc] initWithAudioController:_audioController];
+        NSArray *documentsFolders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *path = [documentsFolders[0] stringByAppendingPathComponent:@"Recording.aiff"];
+        
+        self.recordingFilename = path;
+        
+        NSError *error = nil;
+        if ( ![_recorder beginRecordingToFileAtPath:path fileType:kAudioFileAIFFType error:&error] ) {
+            [[[UIAlertView alloc] initWithTitle:@"Error"
+                                        message:[NSString stringWithFormat:@"Couldn't start recording: %@", [error localizedDescription]]
+                                       delegate:nil
+                              cancelButtonTitle:nil
+                              otherButtonTitles:@"OK", nil] show];
+            self.recorder = nil;
+            return;
+        }
+        
+        _recordButton.selected = YES;
+        
+        [_audioController addOutputReceiver:_recorder];
+        [_audioController addInputReceiver:_recorder];
+    }
+}
+
+
+- (void)play:(id)sender {
+    if ( _player ) {
+        [_audioController removeChannels:@[_player]];
+        self.player = nil;
+        _playButton.selected = NO;
+    } else {
+        NSArray *documentsFolders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *path = [documentsFolders[0] stringByAppendingPathComponent:@"Recording.aiff"];
+        
+        if ( ![[NSFileManager defaultManager] fileExistsAtPath:path] ) return;
+        
+        NSError *error = nil;
+        self.player = [AEAudioFilePlayer audioFilePlayerWithURL:[NSURL fileURLWithPath:path] audioController:_audioController error:&error];
+        
+        if ( !_player ) {
+            [[[UIAlertView alloc] initWithTitle:@"Error"
+                                         message:[NSString stringWithFormat:@"Couldn't start playback: %@", [error localizedDescription]]
+                                        delegate:nil
+                               cancelButtonTitle:nil
+                               otherButtonTitles:@"OK", nil] show];
+            return;
+        }
+        
+        _player.loop = YES;
+//        _player.removeUponFinish = YES;
+//        _player.completionBlock = ^{
+//            _playButton.selected = NO;
+//            self.player = nil;
+//        };
+        [_audioController addChannels:@[_player]];
+        
+        _playButton.selected = YES;
+    }
+}
+
+
+- (void)recordingFinishedSuccess:(NSString *)filename
+{
+    NSParameterAssert(filename);
+    
+    
 }
 
 - (void)dealloc {
