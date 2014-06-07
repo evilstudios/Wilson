@@ -8,6 +8,7 @@
 
 #import "WILCell.h"
 #import "WILFeedViewController.h"
+#import <Parse/Parse.h>
 
 @implementation WILCell
 
@@ -32,5 +33,14 @@
     [self.delegate collectionViewControllerCellSaidPlay:self];
 }
 
+- (void)setObject:(PFObject *)object {
+    
+    _object = object;
+    
+    [self.downVote setTitle:[NSString stringWithFormat:@"💩 %@", object[@"downVotes"]] forState:UIControlStateNormal];
+    [self.upVote setTitle:[NSString stringWithFormat:@"❤️ %@", object[@"upVotes"]] forState:UIControlStateNormal];
+    self.textLabel.text = object.objectId;
+    
+}
 
 @end

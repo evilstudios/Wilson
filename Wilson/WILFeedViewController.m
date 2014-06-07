@@ -14,8 +14,7 @@
 #import "MBProgressHUD.h"
 #import <Parse/Parse.h>
 
-#import "WILPlayViewController.h"
-
+#import "NSSortDescriptor+WilsonRank.h"
 
 @interface WILFeedViewController ()
 
@@ -82,6 +81,15 @@ static NSString * const reuseIdentifier = @"Cell";
     [self refreshRecordings];
 }
 
+- (void)updateRecordings:(NSArray*)recordings {
+    NSSortDescriptor *sortDescriptor =
+        [NSSortDescriptor wilsonRankSortDescriptorWithPositiveKey:@"upVotes"
+                                                  negativeKey:@"downvotes"
+                                                    ascending:NO];
+    self.recordings = [recordings sortedArrayUsingDescriptors:@[sortDescriptor]];
+    [self.collectionView reloadData];
+}
+
 - (void)refreshRecordings {
     [[WILRecordingManager sharedManager] list:^(NSArray *recordings, NSError *error) {
         if(error != nil) {
@@ -89,10 +97,7 @@ static NSString * const reuseIdentifier = @"Cell";
             [[[UIAlertView alloc] initWithTitle:@"Oops!" message:error.localizedDescription delegate:nil cancelButtonTitle:@":(" otherButtonTitles:nil] show];
         } else {
             NSLog(@"Recordings %@", recordings);
-            self.recordings = recordings;
-            [self.collectionView reloadData];
-            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
-
+            [self updateRecordings:recordings];
         }
     }];
 }
@@ -138,17 +143,11 @@ static NSString * const reuseIdentifier = @"Cell";
     
     PFObject *obj = self.recordings[indexPath.row];
     
-    
-    cell.downVote.titleLabel.text = [NSString stringWithFormat:@"v (%@)", obj[@"downVotes"]];
-    
-    cell.upVote.titleLabel.text = [NSString stringWithFormat:@"^ (%@)", obj[@"upVotes"]];
-
-    cell.textLabel.text = obj.objectId;
-    
+    cell.object = obj;
     cell.delegate = self;
 
     
-    NSLog(@"cell? %@, cell.textLabel %@, cell.textLabel.text %@", cell, cell.textLabel, cell.textLabel.text);
+    NSLog(@"cell? %@, cell.downVote %@, cell.downVote.titleLabel %@, cell.downVote.titleLabel.text %@", cell, cell.downVote, cell.downVote.titleLabel, cell.downVote.titleLabel.text);
 
     return cell;
 }
@@ -208,6 +207,30 @@ static NSString * const reuseIdentifier = @"Cell";
 	
 }
 */
+
+#pragma mark Collection view layout things
+// Layout: Set cell size
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"SETTING SIZE FOR ITEM AT INDEX %d", indexPath.row);
+    CGSize mElementSize = CGSizeMake(320, 170);
+    return mElementSize;
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 1.0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 2.0;
+}
+
+// Layout: Set Edges
+- (UIEdgeInsets)collectionView:
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    // return UIEdgeInsetsMake(0,8,0,8);  // top, left, bottom, right
+    return UIEdgeInsetsMake(20,0,0,0);  // top, left, bottom, right
+}
+
 
 #pragma mark Cell delegate methods
 
