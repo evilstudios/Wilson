@@ -6,15 +6,17 @@
 //  Copyright (c) 2014 Team Wilson. All rights reserved.
 //
 
-#import "WILRecordingManager.h"
 #import "WILFeedViewController.h"
 #import "WILFeedHeader.h"
 #import "WILCell.h"
+
+#import "WILRecordViewController.h"
+#import "WILRecordingManager.h"
+
 #import "CSStickyHeaderFlowLayout.h"
 #import "MBProgressHUD.h"
-#import <Parse/Parse.h>
-
 #import "NSSortDescriptor+WilsonRank.h"
+#import <Parse/Parse.h>
 
 @interface WILFeedViewController ()
 
@@ -160,9 +162,11 @@ static NSString * const reuseIdentifier = @"Cell";
         return cell;
         
     } else if ([kind isEqualToString:CSStickyHeaderParallaxHeader]) {
-        UICollectionReusableView *cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+        WILFeedHeader *cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                             withReuseIdentifier:@"header"
                                                                                    forIndexPath:indexPath];
+        
+        cell.delegate = self;
         
         return cell;
     }
@@ -249,6 +253,19 @@ static NSString * const reuseIdentifier = @"Cell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     PFObject *object = self.recordings[indexPath.row];
     NSLog(@"Play! %@", object.objectId);
+}
+
+# pragma mark Header delegate methods
+
+- (void)openRecordUI {
+    WILRecordViewController *vc = [[WILRecordViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:vc animated:YES completion:^{
+        NSLog(@"Presented %@", vc);
+    }];
+}
+
+- (void)openHelpUI {
+    
 }
 
 

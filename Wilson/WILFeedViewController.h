@@ -20,4 +20,8 @@
 
 - (void)collectionViewControllerCellSaidPlay:(WILCell*)cell;
 
+- (void)openRecordUI;
+
+- (void)openHelpUI;
+
 @end
