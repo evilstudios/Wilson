@@ -11,6 +11,7 @@
 #import "WILPadView.h"
 #import "WILAudioFilterPickerController.h"
 #import "AERecorder.h"
+#import "WILRecordingManager.h"
 
 #import <DEDelayFilter.h>
 #import <DEDistortionFilter.h>
@@ -174,7 +175,7 @@
         [_audioController removeInputReceiver:_recorder];
         _recordButton.selected = NO;
         
-        [self recordingFinishedSuccess:self.recordingFilename duration:_recorder.currentTime];
+        [self recordingFinishedSuccess:self.recordingFilename duration:_recorder.currentTime filterName:[self.currentFilter description]];
 
         self.recorder = nil;
         self.recordingFilename = nil;
@@ -243,9 +244,13 @@
 }
 
 
-- (void)recordingFinishedSuccess:(NSString *)filename duration:(NSTimeInterval)duration
+- (void)recordingFinishedSuccess:(NSString *)filename duration:(NSTimeInterval)duration filterName:(NSString *)filterName
 {
     NSParameterAssert(filename);
+    
+    [[WILRecordingManager sharedManager] uploadRecording:filename withFilter:filterName andDuration:duration completionHandler:^(BOOL succeeded, NSError *error) {
+        NSLog(@"error: %@",error);
+    }];
     
     
 }
