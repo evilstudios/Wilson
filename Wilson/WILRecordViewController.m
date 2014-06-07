@@ -211,11 +211,12 @@
             return;
         }
         
-        _player.removeUponFinish = YES;
-        _player.completionBlock = ^{
-            _playButton.selected = NO;
-            self.player = nil;
-        };
+        _player.loop = YES;
+//        _player.removeUponFinish = YES;
+//        _player.completionBlock = ^{
+//            _playButton.selected = NO;
+//            self.player = nil;
+//        };
         [_audioController addChannels:@[_player]];
         
         _playButton.selected = YES;
