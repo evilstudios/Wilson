@@ -8,14 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "WILRecordViewController.h"
-
 @interface WILAudioFilterPickerController : UICollectionViewController
 
 + (UICollectionViewLayout *)preferredLayout;
 + (CGFloat)preferredHeight;
 
-@property (nonatomic) WILAudioFilter selectedFilter;
+@property (nonatomic, strong) NSDictionary *selectedFilter;
 @property (nonatomic, strong) NSArray *filters;
 
 @end

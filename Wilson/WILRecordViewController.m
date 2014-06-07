@@ -11,11 +11,14 @@
 #import "WILPadView.h"
 #import "WILAudioFilterPickerController.h"
 #import "AERecorder.h"
+#import "WILRecordingManager.h"
 
+#import <DEBandPassFilter.h>
 #import <DEDelayFilter.h>
 #import <DEDistortionFilter.h>
 #import <DEReverbFilter.h>
 #import <DEVarispeedFilter.h>
+#import <MBProgressHUD.h>
 
 @interface WILRecordViewController ()
 
@@ -39,12 +42,13 @@
 @property (nonatomic) NSString *recordingFilename;
 @property (nonatomic, strong) AERecorder *recorder;
 @property (nonatomic, retain) AEAudioFilePlayer *player;
-
+@property (nonatomic) NSTimeInterval recordingDuration;
 
 // Misc
 @property (nonatomic, assign) NSTimer *levelsTimer;
 @property (nonatomic, retain) UIButton *recordButton;
 @property (nonatomic, retain) UIButton *playButton;
+@property (nonatomic, retain) UIButton *uploadButton;
 @property (nonatomic, retain) UIButton *oneshotButton;
 @property (nonatomic, retain) UIButton *oneshotAudioUnitButton;
 
@@ -55,7 +59,9 @@
 // Filters
 @property (nonatomic, strong) WILAudioFilterPickerController *filterPicker;
 @property (nonatomic, strong) NSArray *customFilters;
-@property (nonatomic, strong) AEAudioUnitFilter *currentFilter; // retains current filter
+@property (nonatomic, strong) AEAudioUnitFilter *currentAudioFilter; // retains current filter
+@property (nonatomic, strong) NSDictionary *selectedFilter;
+@property (nonatomic, strong) NSDictionary *lastRecordedFilter;
 
 @end
 
@@ -70,10 +76,12 @@
         
         self.loop1.channelIsMuted = NO;
         
-        self.customFilters = @[@(WILAudioFilterCustomDelay),
-                               @(WILAudioFilterCustomDistortion),
-                               @(WILAudioFilterCustomReverb),
-                               @(WILAudioFilterCustomVarispeed)];
+        self.customFilters = @[@{@"name": @"Bandpass",
+                                 @"filter": @(WILAudioFilterCustomBandPass)},
+                               @{@"name": @"Distortion",
+                                 @"filter": @(WILAudioFilterCustomDistortion)},
+                               @{@"name": @"Reverb",
+                                 @"filter": @(WILAudioFilterCustomReverb)}];
         
     }
     return self;
@@ -156,9 +164,16 @@
     _playButton.frame = CGRectMake(110,300,100,44);
     _playButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     
+    // upload button
+    self.uploadButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.uploadButton setTitle:@"Upload" forState:UIControlStateNormal];
+    [self.uploadButton addTarget:self action:@selector(uploadAndDismiss) forControlEvents:UIControlEventTouchUpInside];
+    self.uploadButton.frame = CGRectMake(220,300,100,44);
+    self.uploadButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     
     [self.view addSubview:self.recordButton];
     [self.view addSubview:self.playButton];
+    [self.view addSubview:self.uploadButton];
 }
 
 - (void)record:(id)sender {
@@ -169,23 +184,27 @@
         [_recorder finishRecording];
         [_audioController removeOutputReceiver:_recorder];
         [_audioController removeInputReceiver:_recorder];
-        self.recorder = nil;
         _recordButton.selected = NO;
         
-        [self recordingFinishedSuccess:self.recordingFilename];
-        self.recordingFilename = nil;
+        self.lastRecordedFilter = self.selectedFilter;
+        self.recordingDuration = self.recorder.currentTime;
+        
+        self.recorder = nil;
         
     } else {
         
+        if (!self.recordingFilename) {
+            NSArray *documentsFolders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *path = [documentsFolders[0] stringByAppendingPathComponent:@"Recording.aiff"];
+            
+            self.recordingFilename = path;
+        }
+        
         // start recording
         self.recorder = [[AERecorder alloc] initWithAudioController:_audioController];
-        NSArray *documentsFolders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *path = [documentsFolders[0] stringByAppendingPathComponent:@"Recording.aiff"];
-        
-        self.recordingFilename = path;
         
         NSError *error = nil;
-        if ( ![_recorder beginRecordingToFileAtPath:path fileType:kAudioFileAIFFType error:&error] ) {
+        if ( ![_recorder beginRecordingToFileAtPath:self.recordingFilename fileType:kAudioFileAIFFType error:&error] ) {
             [[[UIAlertView alloc] initWithTitle:@"Error"
                                         message:[NSString stringWithFormat:@"Couldn't start recording: %@", [error localizedDescription]]
                                        delegate:nil
@@ -238,11 +257,53 @@
     }
 }
 
-
-- (void)recordingFinishedSuccess:(NSString *)filename
-{
-    NSParameterAssert(filename);
+- (void)uploadAndDismiss {
     
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:hud];
+    
+    [hud show:YES];
+    
+    hud.labelText = @"Submitting to Wilson!";
+    
+    NSLog(@"beginning upload..");
+    
+    NSString *filterName = [self.lastRecordedFilter objectForKey:@"name"];
+    if (!filterName) {
+        filterName = [self.selectedFilter objectForKey:@"name"];
+    }
+    if (!filterName) {
+        filterName = @"Wilson";
+    }
+    
+    [self recordingFinishedSuccess:self.recordingFilename duration:self.recordingDuration filterName:filterName completion:^(BOOL succeeded, NSError *error) {
+        
+        hud.labelText = @"Done!";
+        [hud hide:YES afterDelay:0.5];
+        
+        if (error) {
+            NSLog(@"upload failed: %@",error);
+        } else {
+            NSLog(@"upload complete!!");
+            [self dismiss];
+        }
+        
+    }];
+    
+}
+
+
+- (void)recordingFinishedSuccess:(NSString *)filename duration:(NSTimeInterval)duration filterName:(NSString *)filterName completion:(void (^)(BOOL succeeded, NSError *error))completionBlock
+{
+    if (filename && filterName && duration != 0) {
+        [[WILRecordingManager sharedManager] uploadRecording:filename withFilter:filterName andDuration:duration completionHandler:completionBlock];
+    } else {
+        NSLog(@"missing data!");
+        if (completionBlock) {
+            NSError *error = [[NSError alloc] initWithDomain:@"Wilson" code:22 userInfo:nil];
+            completionBlock(NO, error);
+        }
+    }
     
 }
 
@@ -255,7 +316,7 @@
 - (void)scopeUISetup
 {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
-    headerView.backgroundColor = [UIColor darkGrayColor];
+    headerView.backgroundColor = [UIColor blackColor];
     
     self.outputOscilloscope = [[TPOscilloscopeLayer alloc] initWithAudioController:_audioController];
     _outputOscilloscope.frame = CGRectMake(0, 0, headerView.bounds.size.width, CGRectGetHeight(headerView.frame));
@@ -312,7 +373,8 @@
     AEAudioFilePlayer *loop = [self.loops objectAtIndex:pad.tag];
     NSParameterAssert(loop);
     
-    loop.channelIsMuted = !loop.channelIsMuted;
+    pad.turnedOn = !pad.turnedOn;
+    loop.channelIsMuted = !pad.turnedOn;
 }
 
 #pragma mark - Audio Filter
@@ -341,27 +403,30 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
     if ([keyPath isEqualToString:@"selectedFilter"]) {
-        WILAudioFilter filter = [[change objectForKey:@"new"] integerValue];
-        NSLog(@"filter: %@",@(filter));
-        [self changeFilter:filter];
+        NSDictionary *filter = [change objectForKey:@"new"];
+        [self changeAudioFilterWithFilterData:filter];
+        self.selectedFilter = filter;
     }
     
 }
 
+#pragma mark - Public Methods
+
+- (void)dismiss {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Private Methods
 
-- (void)changeFilter:(WILAudioFilter)filter {
+- (void)changeAudioFilterWithFilterData:(NSDictionary *)filterData {
     
-    if (self.currentFilter) {
-        [self.audioController removeFilter:self.currentFilter];
-        self.currentFilter = nil;
-    }
-    
+    // get new filter
     AEAudioUnitFilter *newFilter;
+    WILAudioFilter customFilter = [[filterData objectForKey:@"filter"] integerValue];
     
-    switch (filter) {
-        case WILAudioFilterCustomDelay:
-            newFilter = [DEDelayFilter filterWithAudioController:self.audioController];
+    switch (customFilter) {
+        case WILAudioFilterCustomBandPass:
+            newFilter = [DEBandpassFilter filterWithAudioController:self.audioController];
             break;
             
         case WILAudioFilterCustomDistortion:
@@ -381,9 +446,20 @@
             break;
     }
     
-    self.currentFilter = newFilter;
-    
-    [self.audioController addFilter:newFilter];
+    // if there is a new filter, remove the old & add it
+    // else just remove old
+    if ([self.currentAudioFilter class] != [newFilter class]) {
+        
+        [self.audioController removeFilter:self.currentAudioFilter];
+        
+        self.currentAudioFilter = newFilter;
+        
+        [self.audioController addFilter:self.currentAudioFilter];
+        
+    } else if (self.currentAudioFilter) {
+        [self.audioController removeFilter:self.currentAudioFilter];
+        self.currentAudioFilter = nil;
+    }
     
     NSLog(@"self.audioController.filters: %@",self.audioController.filters);
 }

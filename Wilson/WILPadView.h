@@ -10,4 +10,6 @@
 
 @interface WILPadView : UIButton
 
+@property (nonatomic) BOOL turnedOn;
+
 @end
