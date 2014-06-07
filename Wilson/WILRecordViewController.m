@@ -10,6 +10,11 @@
 #import "TPOscilloscopeLayer.h"
 #import "WILAudioFilterPickerController.h"
 
+#import <DEDelayFilter.h>
+#import <DEDistortionFilter.h>
+#import <DEReverbFilter.h>
+#import <DEVarispeedFilter.h>
+
 @interface WILRecordViewController ()
 
 // Awesome Audio
@@ -37,6 +42,9 @@
 @property (nonatomic, retain) UIButton *oneshotButton;
 @property (nonatomic, retain) UIButton *oneshotAudioUnitButton;
 
+// Filters
+@property (nonatomic, strong) NSArray *customFilters;
+@property (nonatomic, strong) AEAudioUnitFilter *currentFilter; // retains current filter
 
 @end
 
@@ -50,6 +58,12 @@
         [self amazingSetup];
         
         self.loop1.channelIsMuted = NO;
+        
+        self.customFilters = @[@(WILAudioFilterCustomDelay),
+                               @(WILAudioFilterCustomDistortion),
+                               @(WILAudioFilterCustomReverb),
+                               @(WILAudioFilterCustomVarispeed)];
+        
     }
     return self;
 }
@@ -142,11 +156,68 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    if ([keyPath isEqualToString:@"selectedFilter"]) {
+        WILAudioFilter filter = [[change objectForKey:@"new"] integerValue];
+        NSLog(@"filter: %@",@(filter));
+        [self changeFilter:filter];
+    }
+    
+}
+
 #pragma mark - Private Methods
+
+- (void)changeFilter:(WILAudioFilter)filter {
+    
+    if (self.currentFilter) {
+        [self.audioController removeFilter:self.currentFilter];
+        self.currentFilter = nil;
+    }
+    
+    AEAudioUnitFilter *newFilter;
+    
+    switch (filter) {
+        case WILAudioFilterCustomDelay:
+            newFilter = [DEDelayFilter filterWithAudioController:self.audioController];
+            break;
+            
+        case WILAudioFilterCustomDistortion:
+            newFilter = [DEDistortionFilter filterWithAudioController:self.audioController];
+            break;
+            
+        case WILAudioFilterCustomReverb:
+            newFilter = [DEReverbFilter filterWithAudioController:self.audioController];
+            break;
+            
+        case WILAudioFilterCustomVarispeed:
+            newFilter = [DEVarispeedFilter filterWithAudioController:self.audioController];
+            break;
+            
+        case WILAudioFilterNone:
+            NSParameterAssert(NO); // impossible case | coding error
+            break;
+    }
+    
+    self.currentFilter = newFilter;
+    
+    [self.audioController addFilter:newFilter];
+    
+    NSLog(@"self.audioController.filters: %@",self.audioController.filters);
+}
 
 - (void)audioFilterPickerSetup {
     
     WILAudioFilterPickerController *filterPicker = [[WILAudioFilterPickerController alloc] initWithCollectionViewLayout:[WILAudioFilterPickerController preferredLayout]];
+    
+    filterPicker.filters = self.customFilters;
+    [filterPicker addObserver:self forKeyPath:@"selectedFilter" options:NSKeyValueObservingOptionNew context:nil];
     
     [self addChildViewController:filterPicker];
     

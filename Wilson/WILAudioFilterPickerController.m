@@ -17,8 +17,6 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 
 @interface WILAudioFilterPickerController ()
 
-@property (nonatomic, strong) NSArray *filters;
-
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,10 +29,6 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     if (self) {
         // Custom initialization
         self.selectedFilter = WILAudioFilterNone;
-        self.filters = @[@(WILAudioFilterCustomDelay),
-                         @(WILAudioFilterCustomDistortion),
-                         @(WILAudioFilterCustomReverb),
-                         @(WILAudioFilterCustomVarispeed)];
     }
     return self;
 }
@@ -96,6 +90,16 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor redColor];
+    
+    UILabel *testLabel = [[UILabel alloc] initWithFrame:cell.bounds];
+    [cell addSubview:testLabel];
+    
+    testLabel.text = [[self.filters objectAtIndex:indexPath.row] description];
+    testLabel.textColor = [UIColor whiteColor];
+    testLabel.textAlignment = NSTextAlignmentCenter;
+    
+    testLabel.font = [UIFont boldSystemFontOfSize:20];
+    
     return cell;
 }
 
