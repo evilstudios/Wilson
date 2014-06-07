@@ -14,11 +14,15 @@
 #import "MBProgressHUD.h"
 #import <Parse/Parse.h>
 
+#import "WILPlayViewController.h"
+
+
 @interface WILFeedViewController ()
 
 @property (nonatomic, strong) NSArray *recordings;
 @property (nonatomic, strong) UINib *headerNib;
 @property (nonatomic, strong) UINib *cellNib;
+@property (nonatomic) WILPlayViewController *playController;
 
 @end
 
@@ -67,6 +71,10 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerNib:self.cellNib forCellWithReuseIdentifier:reuseIdentifier];
     
     // Do any additional setup after loading the view.
+    self.playController = [[WILPlayViewController alloc] initWithNibName:nil bundle:nil];
+    self.playController.view.frame = CGRectMake(0, 0, 320, 200);
+    [self addChildViewController:self.playController];
+    [self.view addSubview:self.playController.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -223,6 +231,8 @@ static NSString * const reuseIdentifier = @"Cell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     PFObject *object = self.recordings[indexPath.row];
     NSLog(@"Play! %@", object.objectId);
+    
+    [self.playController play:object];
 }
 
 
