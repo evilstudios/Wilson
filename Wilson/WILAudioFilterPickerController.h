@@ -7,19 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AEAudioUnitFilter.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-typedef NS_ENUM(NSUInteger, WILAudioFilter) {
-    WILAudioFilterNone,
-    WILAudioFilterCustomDelay,
-    WILAudioFilterCustomDistortion,
-    WILAudioFilterCustomReverb,
-    WILAudioFilterCustomVarispeed
-};
-
-////////////////////////////////////////////////////////////////////////////////
+#import "WILRecordViewController.h"
 
 @interface WILAudioFilterPickerController : UICollectionViewController
 
@@ -27,5 +16,6 @@ typedef NS_ENUM(NSUInteger, WILAudioFilter) {
 + (CGFloat)preferredHeight;
 
 @property (nonatomic) WILAudioFilter selectedFilter;
+@property (nonatomic, strong) NSArray *filters;
 
 @end

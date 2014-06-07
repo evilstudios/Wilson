@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+////////////////////////////////////////////////////////////////////////////////
+
+typedef NS_ENUM(NSUInteger, WILAudioFilter) {
+    WILAudioFilterNone,
+    WILAudioFilterCustomDelay,
+    WILAudioFilterCustomDistortion,
+    WILAudioFilterCustomReverb,
+    WILAudioFilterCustomVarispeed
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
 @interface WILRecordViewController : UIViewController
 
 @end

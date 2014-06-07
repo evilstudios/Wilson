@@ -17,8 +17,6 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 
 @interface WILAudioFilterPickerController ()
 
-@property (nonatomic, strong) NSArray *availableFilters;
-
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,10 +29,6 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     if (self) {
         // Custom initialization
         self.selectedFilter = WILAudioFilterNone;
-        self.availableFilters = @[@(WILAudioFilterCustomDelay),
-                                  @(WILAudioFilterCustomDistortion),
-                                  @(WILAudioFilterCustomReverb),
-                                  @(WILAudioFilterCustomVarispeed)];
     }
     return self;
 }
@@ -90,15 +84,31 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.availableFilters.count;
+    return self.filters.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor redColor];
+    
+    UILabel *testLabel = [[UILabel alloc] initWithFrame:cell.bounds];
+    [cell addSubview:testLabel];
+    
+    testLabel.text = [[self.filters objectAtIndex:indexPath.row] description];
+    testLabel.textColor = [UIColor whiteColor];
+    testLabel.textAlignment = NSTextAlignmentCenter;
+    
+    testLabel.font = [UIFont boldSystemFontOfSize:20];
+    
     return cell;
 }
 
 #pragma mark - UICollectionView Delegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    self.selectedFilter = [[self.filters objectAtIndex:indexPath.row] integerValue];
+    
+}
 
 @end
