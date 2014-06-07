@@ -98,14 +98,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
     [self scopeUISetup];
 
 }
 
 - (void)scopeUISetup
 {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
+    headerView.backgroundColor = [UIColor darkGrayColor];
     
     self.outputOscilloscope = [[TPOscilloscopeLayer alloc] initWithAudioController:_audioController];
     _outputOscilloscope.frame = CGRectMake(0, 0, headerView.bounds.size.width, CGRectGetHeight(headerView.frame));
