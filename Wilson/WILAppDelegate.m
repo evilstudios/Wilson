@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "WILAppDelegate.h"
 #import "WILAudioRecordController.h"
+#import "WILRecordViewController.h"
 
 @implementation WILAppDelegate
 
@@ -32,7 +33,7 @@
     [self.window makeKeyAndVisible];
     
     
-    WILAudioRecordController *vc = [[WILAudioRecordController alloc] initWithNibName:nil bundle:nil];
+    WILRecordViewController *vc = [[WILRecordViewController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = vc;
     
     return YES;
