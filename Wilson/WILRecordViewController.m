@@ -316,7 +316,8 @@
     AEAudioFilePlayer *loop = [self.loops objectAtIndex:pad.tag];
     NSParameterAssert(loop);
     
-    loop.channelIsMuted = !loop.channelIsMuted;
+    pad.turnedOn = !pad.turnedOn;
+    loop.channelIsMuted = !pad.turnedOn;
 }
 
 #pragma mark - Audio Filter

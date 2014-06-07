@@ -15,18 +15,16 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor blueColor];
+        self.turnedOn = NO; // force call to custom setter
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)setTurnedOn:(BOOL)turnedOn
 {
-    // Drawing code
+    _turnedOn = turnedOn;
+    
+    self.backgroundColor = turnedOn ? [UIColor whiteColor] : [UIColor blueColor];
 }
-*/
 
 @end
