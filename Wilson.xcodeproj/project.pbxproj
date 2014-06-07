@@ -21,6 +21,8 @@
 		3071615E1943913E00EB8FFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3071615C1943913E00EB8FFF /* InfoPlist.strings */; };
 		307161601943913E00EB8FFF /* WilsonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3071615F1943913E00EB8FFF /* WilsonTests.m */; };
 		CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA25A221943988F00E68E14 /* WILRecordingManager.m */; };
+		3071616C194396C000EB8FFF /* WILAudioRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3071616A194396C000EB8FFF /* WILAudioRecordController.m */; };
+		3071616D194396C000EB8FFF /* WILAudioRecordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3071616B194396C000EB8FFF /* WILAudioRecordController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,10 @@
 		49B8B98CB1BD495F932760C4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		CDA25A211943988F00E68E14 /* WILRecordingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILRecordingManager.h; sourceTree = "<group>"; };
 		CDA25A221943988F00E68E14 /* WILRecordingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILRecordingManager.m; sourceTree = "<group>"; };
+		30716169194396C000EB8FFF /* WILAudioRecordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILAudioRecordController.h; sourceTree = "<group>"; };
+		3071616A194396C000EB8FFF /* WILAudioRecordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILAudioRecordController.m; sourceTree = "<group>"; };
+		3071616B194396C000EB8FFF /* WILAudioRecordController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WILAudioRecordController.xib; sourceTree = "<group>"; };
+		49B8B98CB1BD495F932760C4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,9 @@
 				307161411943913D00EB8FFF /* Supporting Files */,
 				CDA25A211943988F00E68E14 /* WILRecordingManager.h */,
 				CDA25A221943988F00E68E14 /* WILRecordingManager.m */,
+				30716169194396C000EB8FFF /* WILAudioRecordController.h */,
+				3071616A194396C000EB8FFF /* WILAudioRecordController.m */,
+				3071616B194396C000EB8FFF /* WILAudioRecordController.xib */,
 			);
 			path = Wilson;
 			sourceTree = "<group>";
@@ -233,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3071616D194396C000EB8FFF /* WILAudioRecordController.xib in Resources */,
 				307161451943913D00EB8FFF /* InfoPlist.strings in Resources */,
 				3071614D1943913D00EB8FFF /* Images.xcassets in Resources */,
 			);
@@ -288,6 +298,7 @@
 			files = (
 				CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */,
 				307161471943913D00EB8FFF /* main.m in Sources */,
+				3071616C194396C000EB8FFF /* WILAudioRecordController.m in Sources */,
 				3071614B1943913D00EB8FFF /* WILAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
