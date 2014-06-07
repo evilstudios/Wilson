@@ -84,12 +84,10 @@
                                  @"filter": @(WILAudioFilterCustomBandPass)},
                                @{@"name": @"Distortion",
                                  @"filter": @(WILAudioFilterCustomDistortion)},
-                               @{@"name": @"Dynamics",
-                                 @"filter": @(WILAudioFilterCustomDynamicsProcessor)},
+                               @{@"name": @"Delay",
+                                 @"filter": @(WILAudioFilterCustomDelay)},
                                @{@"name": @"High Pass",
                                  @"filter": @(WILAudioFilterCustomHighPass)},
-                               @{@"name": @"High Shelf",
-                                 @"filter": @(WILAudioFilterCustomHighShelf)},
                                @{@"name": @"Low Pass",
                                  @"filter": @(WILAudioFilterCustomLowPass)},];
         
@@ -443,16 +441,12 @@
             newFilter = [DEDistortionFilter filterWithAudioController:self.audioController];
             break;
             
-        case WILAudioFilterCustomDynamicsProcessor:
-            newFilter = [DEDynamicsProcessorFilter filterWithAudioController:self.audioController];
+        case WILAudioFilterCustomDelay:
+            newFilter = [DEDelayFilter filterWithAudioController:self.audioController];
             break;
             
         case WILAudioFilterCustomHighPass:
             newFilter = [DEHighPassFilter filterWithAudioController:self.audioController];
-            break;
-            
-        case WILAudioFilterCustomHighShelf:
-            newFilter = [DEHighShelfFilter filterWithAudioController:self.audioController];
             break;
             
         case WILAudioFilterCustomLowPass:
