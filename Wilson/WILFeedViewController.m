@@ -93,7 +93,6 @@ static NSString * const reuseIdentifier = @"Cell";
             NSLog(@"Error %@", error.localizedDescription);
             [[[UIAlertView alloc] initWithTitle:@"Oops!" message:error.localizedDescription delegate:nil cancelButtonTitle:@":(" otherButtonTitles:nil] show];
         } else {
-            NSLog(@"Recordings %@", recordings);
             [self updateRecordings:recordings];
         }
     }];
@@ -142,9 +141,6 @@ static NSString * const reuseIdentifier = @"Cell";
     
     cell.object = obj;
     cell.delegate = self;
-
-    
-    NSLog(@"cell? %@, cell.downVote %@, cell.downVote.titleLabel %@, cell.downVote.titleLabel.text %@", cell, cell.downVote, cell.downVote.titleLabel, cell.downVote.titleLabel.text);
 
     return cell;
 }
@@ -211,7 +207,6 @@ static NSString * const reuseIdentifier = @"Cell";
 // Layout: Set cell size
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSLog(@"SETTING SIZE FOR ITEM AT INDEX %d", indexPath.row);
     CGSize mElementSize = CGSizeMake(320, 170);
     return mElementSize;
 }
@@ -237,7 +232,14 @@ static NSString * const reuseIdentifier = @"Cell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     PFObject *object = self.recordings[indexPath.row];
     [[WILRecordingManager sharedManager] vote:WILRecordingVoteDown forRecordingID:object.objectId completionHandler:^(BOOL succeeded, NSError *error) {
-//        NSLog(@"Stuff! %@ %@", error, succeeded ? @"YES" : @"OH DAMN IT");
+        if(error == nil && succeeded == YES) {
+            object[@"downVotes"] = @([object[@"downVotes"] integerValue] + 1);
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        } else if(error) {
+            
+        } else {
+            
+        }
     }];
 }
 
@@ -245,7 +247,14 @@ static NSString * const reuseIdentifier = @"Cell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     PFObject *object = self.recordings[indexPath.row];
     [[WILRecordingManager sharedManager] vote:WILRecordingVoteUp forRecordingID:object.objectId completionHandler:^(BOOL succeeded, NSError *error) {
-//        NSLog(@"Stuff! %@ %@", error, succeeded ? @"YES" : @"OH DAMN IT");
+        if(error == nil && succeeded == YES) {
+            object[@"upVotes"] = @([object[@"upVotes"] integerValue] + 1);
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        } else if(error) {
+            
+        } else {
+            
+        }
     }];
 }
 
