@@ -7,6 +7,8 @@
 //
 
 #import "WILAudioFilterPickerController.h"
+#import "WILAudioFilterPickerCell.h"
+
 #import <DEAudioUnitFilter.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +41,7 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
     
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier];
+    [self.collectionView registerClass:[WILAudioFilterPickerCell class] forCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier];
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,20 +89,9 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier forIndexPath:indexPath];
+    WILAudioFilterPickerCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier forIndexPath:indexPath];
     
-    cell.contentView.frame = UIEdgeInsetsInsetRect(cell.contentView.bounds, UIEdgeInsetsMake(5, 5, 5, 5));
-    cell.contentView.backgroundColor = [UIColor redColor];
-    cell.contentView.layer.cornerRadius = 5;
-    
-    UILabel *testLabel = [[UILabel alloc] initWithFrame:cell.contentView.bounds];
-    [cell.contentView addSubview:testLabel];
-    
-    testLabel.text = [[self.filters objectAtIndex:indexPath.row] objectForKey:@"name"];
-    testLabel.textColor = [UIColor whiteColor];
-    testLabel.textAlignment = NSTextAlignmentCenter;
-    
-    testLabel.font = [UIFont boldSystemFontOfSize:17];
+    cell.filterLabel.text = [[self.filters objectAtIndex:indexPath.row] objectForKey:@"name"];
     
     return cell;
 }
