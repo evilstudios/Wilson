@@ -41,7 +41,7 @@
 @property (nonatomic) NSString *recordingFilename;
 @property (nonatomic, strong) AERecorder *recorder;
 @property (nonatomic, retain) AEAudioFilePlayer *player;
-
+@property (nonatomic) NSTimeInterval recordingDuration;
 
 // Misc
 @property (nonatomic, assign) NSTimer *levelsTimer;
@@ -186,20 +186,24 @@
         _recordButton.selected = NO;
         
         self.lastRecordedFilter = self.selectedFilter;
+        self.recordingDuration = self.recorder.currentTime;
         
-        // TODO: stop sounds?
+        self.recorder = nil;
         
     } else {
         
+        if (!self.recordingFilename) {
+            NSArray *documentsFolders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *path = [documentsFolders[0] stringByAppendingPathComponent:@"Recording.aiff"];
+            
+            self.recordingFilename = path;
+        }
+        
         // start recording
         self.recorder = [[AERecorder alloc] initWithAudioController:_audioController];
-        NSArray *documentsFolders = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *path = [documentsFolders[0] stringByAppendingPathComponent:@"Recording.aiff"];
-        
-        self.recordingFilename = path;
         
         NSError *error = nil;
-        if ( ![_recorder beginRecordingToFileAtPath:path fileType:kAudioFileAIFFType error:&error] ) {
+        if ( ![_recorder beginRecordingToFileAtPath:self.recordingFilename fileType:kAudioFileAIFFType error:&error] ) {
             [[[UIAlertView alloc] initWithTitle:@"Error"
                                         message:[NSString stringWithFormat:@"Couldn't start recording: %@", [error localizedDescription]]
                                        delegate:nil
@@ -271,7 +275,7 @@
         filterName = @"Wilson";
     }
     
-    [self recordingFinishedSuccess:self.recordingFilename duration:self.recorder.currentTime filterName:filterName completion:^(BOOL succeeded, NSError *error) {
+    [self recordingFinishedSuccess:self.recordingFilename duration:self.recordingDuration filterName:filterName completion:^(BOOL succeeded, NSError *error) {
         
         hud.labelText = @"Done!";
         [hud hide:YES afterDelay:0.5];
@@ -280,9 +284,6 @@
             NSLog(@"upload failed: %@",error);
         } else {
             NSLog(@"upload complete!!");
-            self.recorder = nil;
-            self.recordingFilename = nil;
-            
             [self dismiss];
         }
         
@@ -297,6 +298,10 @@
         [[WILRecordingManager sharedManager] uploadRecording:filename withFilter:filterName andDuration:duration completionHandler:completionBlock];
     } else {
         NSLog(@"missing data!");
+        if (completionBlock) {
+            NSError *error = [[NSError alloc] initWithDomain:@"Wilson" code:22 userInfo:nil];
+            completionBlock(NO, error);
+        }
     }
     
 }

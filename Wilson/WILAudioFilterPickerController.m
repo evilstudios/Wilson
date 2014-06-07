@@ -88,16 +88,19 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor redColor];
     
-    UILabel *testLabel = [[UILabel alloc] initWithFrame:cell.bounds];
-    [cell addSubview:testLabel];
+    cell.contentView.frame = UIEdgeInsetsInsetRect(cell.contentView.bounds, UIEdgeInsetsMake(5, 5, 5, 5));
+    cell.contentView.backgroundColor = [UIColor redColor];
+    cell.contentView.layer.cornerRadius = 5;
+    
+    UILabel *testLabel = [[UILabel alloc] initWithFrame:cell.contentView.bounds];
+    [cell.contentView addSubview:testLabel];
     
     testLabel.text = [[self.filters objectAtIndex:indexPath.row] objectForKey:@"name"];
     testLabel.textColor = [UIColor whiteColor];
     testLabel.textAlignment = NSTextAlignmentCenter;
     
-    testLabel.font = [UIFont boldSystemFontOfSize:20];
+    testLabel.font = [UIFont boldSystemFontOfSize:17];
     
     return cell;
 }
