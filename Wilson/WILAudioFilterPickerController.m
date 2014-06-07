@@ -28,7 +28,6 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     self = [super initWithCollectionViewLayout:layout];
     if (self) {
         // Custom initialization
-        self.selectedFilter = WILAudioFilterNone;
     }
     return self;
 }
@@ -94,7 +93,7 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     UILabel *testLabel = [[UILabel alloc] initWithFrame:cell.bounds];
     [cell addSubview:testLabel];
     
-    testLabel.text = [[self.filters objectAtIndex:indexPath.row] description];
+    testLabel.text = [[self.filters objectAtIndex:indexPath.row] objectForKey:@"name"];
     testLabel.textColor = [UIColor whiteColor];
     testLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -107,7 +106,7 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.selectedFilter = [[self.filters objectAtIndex:indexPath.row] integerValue];
+    self.selectedFilter = [self.filters objectAtIndex:indexPath.row];
     
 }
 

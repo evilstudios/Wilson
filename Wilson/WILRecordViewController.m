@@ -17,6 +17,7 @@
 #import <DEDistortionFilter.h>
 #import <DEReverbFilter.h>
 #import <DEVarispeedFilter.h>
+#import <MBProgressHUD.h>
 
 @interface WILRecordViewController ()
 
@@ -46,6 +47,7 @@
 @property (nonatomic, assign) NSTimer *levelsTimer;
 @property (nonatomic, retain) UIButton *recordButton;
 @property (nonatomic, retain) UIButton *playButton;
+@property (nonatomic, retain) UIButton *uploadButton;
 @property (nonatomic, retain) UIButton *oneshotButton;
 @property (nonatomic, retain) UIButton *oneshotAudioUnitButton;
 
@@ -56,7 +58,9 @@
 // Filters
 @property (nonatomic, strong) WILAudioFilterPickerController *filterPicker;
 @property (nonatomic, strong) NSArray *customFilters;
-@property (nonatomic, strong) AEAudioUnitFilter *currentFilter; // retains current filter
+@property (nonatomic, strong) AEAudioUnitFilter *currentAudioFilter; // retains current filter
+@property (nonatomic, strong) NSDictionary *selectedFilter;
+@property (nonatomic, strong) NSDictionary *lastRecordedFilter;
 
 @end
 
@@ -71,10 +75,12 @@
         
         self.loop1.channelIsMuted = NO;
         
-        self.customFilters = @[@(WILAudioFilterCustomDelay),
-                               @(WILAudioFilterCustomDistortion),
-                               @(WILAudioFilterCustomReverb),
-                               @(WILAudioFilterCustomVarispeed)];
+        self.customFilters = @[@{@"name": @"Delay",
+                                 @"filter": @(WILAudioFilterCustomDelay)},
+                               @{@"name": @"Distortion",
+                                 @"filter": @(WILAudioFilterCustomDistortion)},
+                               @{@"name": @"Reverb",
+                                 @"filter": @(WILAudioFilterCustomReverb)}];
         
     }
     return self;
@@ -157,9 +163,16 @@
     _playButton.frame = CGRectMake(110,300,100,44);
     _playButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     
+    // upload button
+    self.uploadButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.uploadButton setTitle:@"Upload" forState:UIControlStateNormal];
+    [self.uploadButton addTarget:self action:@selector(uploadAndDismiss) forControlEvents:UIControlEventTouchUpInside];
+    self.uploadButton.frame = CGRectMake(220,300,100,44);
+    self.uploadButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     
     [self.view addSubview:self.recordButton];
     [self.view addSubview:self.playButton];
+    [self.view addSubview:self.uploadButton];
 }
 
 - (void)record:(id)sender {
@@ -167,18 +180,14 @@
     if ( _recorder ) {
         
         // save
-        
-        NSLog(@"Time is %f", self.recorder.currentTime);
-        
         [_recorder finishRecording];
         [_audioController removeOutputReceiver:_recorder];
         [_audioController removeInputReceiver:_recorder];
         _recordButton.selected = NO;
         
-        [self recordingFinishedSuccess:self.recordingFilename duration:_recorder.currentTime filterName:[self.currentFilter description]];
-
-        self.recorder = nil;
-        self.recordingFilename = nil;
+        self.lastRecordedFilter = self.selectedFilter;
+        
+        // TODO: stop sounds?
         
     } else {
         
@@ -243,15 +252,52 @@
     }
 }
 
-
-- (void)recordingFinishedSuccess:(NSString *)filename duration:(NSTimeInterval)duration filterName:(NSString *)filterName
-{
-    NSParameterAssert(filename);
+- (void)uploadAndDismiss {
     
-    [[WILRecordingManager sharedManager] uploadRecording:filename withFilter:filterName andDuration:duration completionHandler:^(BOOL succeeded, NSError *error) {
-        NSLog(@"error: %@",error);
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:hud];
+    
+    [hud show:YES];
+    
+    hud.labelText = @"Submitting to Wilson!";
+    
+    NSLog(@"beginning upload..");
+    
+    NSString *filterName = [self.lastRecordedFilter objectForKey:@"name"];
+    if (!filterName) {
+        filterName = [self.selectedFilter objectForKey:@"name"];
+    }
+    if (!filterName) {
+        filterName = @"Wilson";
+    }
+    
+    [self recordingFinishedSuccess:self.recordingFilename duration:self.recorder.currentTime filterName:filterName completion:^(BOOL succeeded, NSError *error) {
+        
+        hud.labelText = @"Done!";
+        [hud hide:YES afterDelay:0.5];
+        
+        if (error) {
+            NSLog(@"upload failed: %@",error);
+        } else {
+            NSLog(@"upload complete!!");
+            self.recorder = nil;
+            self.recordingFilename = nil;
+            
+            [self dismiss];
+        }
+        
     }];
     
+}
+
+
+- (void)recordingFinishedSuccess:(NSString *)filename duration:(NSTimeInterval)duration filterName:(NSString *)filterName completion:(void (^)(BOOL succeeded, NSError *error))completionBlock
+{
+    if (filename && filterName && duration != 0) {
+        [[WILRecordingManager sharedManager] uploadRecording:filename withFilter:filterName andDuration:duration completionHandler:completionBlock];
+    } else {
+        NSLog(@"missing data!");
+    }
     
 }
 
@@ -351,25 +397,32 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
     if ([keyPath isEqualToString:@"selectedFilter"]) {
-        WILAudioFilter filter = [[change objectForKey:@"new"] integerValue];
-        NSLog(@"filter: %@",@(filter));
-        [self changeFilter:filter];
+        NSDictionary *filter = [change objectForKey:@"new"];
+        [self changeAudioFilterWithFilterData:filter];
+        self.selectedFilter = filter;
     }
     
 }
 
+#pragma mark - Public Methods
+
+- (void)dismiss {
+    // TODO: dismiss me
+}
+
 #pragma mark - Private Methods
 
-- (void)changeFilter:(WILAudioFilter)filter {
+- (void)changeAudioFilterWithFilterData:(NSDictionary *)filterData {
     
-    if (self.currentFilter) {
-        [self.audioController removeFilter:self.currentFilter];
-        self.currentFilter = nil;
+    if (self.currentAudioFilter) {
+        [self.audioController removeFilter:self.currentAudioFilter];
+        self.currentAudioFilter = nil;
     }
     
     AEAudioUnitFilter *newFilter;
+    WILAudioFilter customFilter = [[filterData objectForKey:@"filter"] integerValue];
     
-    switch (filter) {
+    switch (customFilter) {
         case WILAudioFilterCustomDelay:
             newFilter = [DEDelayFilter filterWithAudioController:self.audioController];
             break;
@@ -391,7 +444,7 @@
             break;
     }
     
-    self.currentFilter = newFilter;
+    self.currentAudioFilter = newFilter;
     
     [self.audioController addFilter:newFilter];
     
