@@ -7,6 +7,7 @@
 //
 
 #import "WILAppDelegate.h"
+#import "WILAudioRecordController.h"
 
 @implementation WILAppDelegate
 
@@ -16,6 +17,11 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    
+    WILAudioRecordController *vc = [[WILAudioRecordController alloc] initWithNibName:nil bundle:nil];
+    self.window.rootViewController = vc;
+    
     return YES;
 }
 
