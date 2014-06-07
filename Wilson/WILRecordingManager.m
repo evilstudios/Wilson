@@ -43,7 +43,17 @@ const NSString *kRecording = @"Recording";
     object[@"audioFile"] = [PFFile fileWithName:@"sound.aiff" contentsAtPath:filePath];
     object[@"upVotes"] = @(0);
     object[@"downVotes"] = @(0);
+    object[@"title"] = [self someName];
     [object saveInBackgroundWithBlock:completionHandler];
+}
+
+- (NSString *)someName {
+    NSArray *names = @[@"cat",@"dog",@"cow",@"house",@"car",@"bat",@"salmon",@"igloo",@"cactus",@"monkey"];
+    NSArray *adjs = @[@"happy",@"sad",@"scary",@"big",@"small",@"horny",@"tasty",@"dangerous",@"sparkling"];
+    
+    NSString *str = [NSString stringWithFormat:@"%@ %@", adjs[arc4random()%adjs.count], names[arc4random()%names.count]];
+    
+    return str;
 }
 
 - (void)vote:(WILRecordingVote)direction forRecordingID:(NSString*)recordingID completionHandler:(void(^)(BOOL succeeded, NSError *error))completionHandler {
