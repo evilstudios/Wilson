@@ -15,5 +15,6 @@
     #import <Foundation/Foundation.h>
 
     #import "TheAmazingAudioEngine.h"
+    #import <Parse/Parse.h>
 
 #endif

@@ -56,6 +56,8 @@
 @property (nonatomic, retain) UIButton *oneshotButton;
 @property (nonatomic, retain) UIButton *oneshotAudioUnitButton;
 
+@property (nonatomic, retain) UIButton *dismissButton;
+
 // Pads
 @property (nonatomic) NSArray *pads;
 @property (nonatomic) NSMutableArray *loops;
@@ -179,9 +181,24 @@
     self.uploadButton.frame = CGRectMake(220,300,100,44);
     self.uploadButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
     
+    
+    // dismiss button
+    self.dismissButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.dismissButton setTitle:@"Dismiss" forState:UIControlStateNormal];
+    [self.dismissButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+    self.dismissButton.frame = CGRectMake(110,350,100,44);
+    self.dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+
+    
     [self.view addSubview:self.recordButton];
     [self.view addSubview:self.playButton];
     [self.view addSubview:self.uploadButton];
+    [self.view addSubview:self.dismissButton];
+}
+
+- (void)dismiss:(id)sender
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)record:(id)sender {

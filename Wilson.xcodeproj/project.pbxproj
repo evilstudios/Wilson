@@ -37,6 +37,12 @@
 		CDA9CFEF1943B2A7004C0340 /* WILCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA9CFEE1943B2A7004C0340 /* WILCell.xib */; };
 		CDA9CFF31943B2D1004C0340 /* WILFeedHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CFF11943B2D1004C0340 /* WILFeedHeader.m */; };
 		CDA9CFF41943B2D1004C0340 /* WILFeedHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA9CFF21943B2D1004C0340 /* WILFeedHeader.xib */; };
+		30784D4D1943B03400244AA9 /* WILPadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30784D4C1943B03400244AA9 /* WILPadView.m */; };
+		30784D4E1943B47400244AA9 /* WILAudioFilterPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0310F11943B19E00807CFC /* WILAudioFilterPickerController.m */; };
+		30784D511943BB9500244AA9 /* drum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30784D501943BB9500244AA9 /* drum.wav */; };
+		30784D531943BC0E00244AA9 /* snapper.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30784D521943BC0E00244AA9 /* snapper.wav */; };
+		30784D561943CA5600244AA9 /* WILPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30784D551943CA5600244AA9 /* WILPlayViewController.m */; };
+		CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA25A221943988F00E68E14 /* WILRecordingManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +100,15 @@
 		CDA9CFF01943B2D1004C0340 /* WILFeedHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILFeedHeader.h; sourceTree = "<group>"; };
 		CDA9CFF11943B2D1004C0340 /* WILFeedHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILFeedHeader.m; sourceTree = "<group>"; };
 		CDA9CFF21943B2D1004C0340 /* WILFeedHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WILFeedHeader.xib; sourceTree = "<group>"; };
+		30784D4B1943B03400244AA9 /* WILPadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILPadView.h; sourceTree = "<group>"; };
+		30784D4C1943B03400244AA9 /* WILPadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILPadView.m; sourceTree = "<group>"; };
+		30784D501943BB9500244AA9 /* drum.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drum.wav; sourceTree = "<group>"; };
+		30784D521943BC0E00244AA9 /* snapper.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = snapper.wav; sourceTree = "<group>"; };
+		30784D541943CA5600244AA9 /* WILPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILPlayViewController.h; sourceTree = "<group>"; };
+		30784D551943CA5600244AA9 /* WILPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILPlayViewController.m; sourceTree = "<group>"; };
+		49B8B98CB1BD495F932760C4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		4F0310F01943B19E00807CFC /* WILAudioFilterPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WILAudioFilterPickerController.h; sourceTree = "<group>"; };
+		4F0310F11943B19E00807CFC /* WILAudioFilterPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WILAudioFilterPickerController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +195,8 @@
 				CDA9CFE91943B1CA004C0340 /* Feed */,
 				30072C0A1943AB1E009088B5 /* WILRecordViewController.h */,
 				30072C0B1943AB1E009088B5 /* WILRecordViewController.m */,
+				30784D541943CA5600244AA9 /* WILPlayViewController.h */,
+				30784D551943CA5600244AA9 /* WILPlayViewController.m */,
 				30784D4B1943B03400244AA9 /* WILPadView.h */,
 				30784D4C1943B03400244AA9 /* WILPadView.m */,
 				30072C131943AD3D009088B5 /* TPOscilloscopeLayer.h */,
@@ -391,6 +408,7 @@
 				30784D4D1943B03400244AA9 /* WILPadView.m in Sources */,
 				30072C151943AD3D009088B5 /* TPOscilloscopeLayer.m in Sources */,
 				30784D4E1943B47400244AA9 /* WILAudioFilterPickerController.m in Sources */,
+				30784D561943CA5600244AA9 /* WILPlayViewController.m in Sources */,
 				CDA25A231943988F00E68E14 /* WILRecordingManager.m in Sources */,
 				307161471943913D00EB8FFF /* main.m in Sources */,
 				30072C0C1943AB1E009088B5 /* WILRecordViewController.m in Sources */,
