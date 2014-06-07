@@ -166,13 +166,17 @@
     if ( _recorder ) {
         
         // save
+        
+        NSLog(@"Time is %f", self.recorder.currentTime);
+        
         [_recorder finishRecording];
         [_audioController removeOutputReceiver:_recorder];
         [_audioController removeInputReceiver:_recorder];
-        self.recorder = nil;
         _recordButton.selected = NO;
         
-        [self recordingFinishedSuccess:self.recordingFilename];
+        [self recordingFinishedSuccess:self.recordingFilename duration:_recorder.currentTime];
+
+        self.recorder = nil;
         self.recordingFilename = nil;
         
     } else {
@@ -239,7 +243,7 @@
 }
 
 
-- (void)recordingFinishedSuccess:(NSString *)filename
+- (void)recordingFinishedSuccess:(NSString *)filename duration:(NSTimeInterval)duration
 {
     NSParameterAssert(filename);
     
