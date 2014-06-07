@@ -13,6 +13,7 @@
 #import "AERecorder.h"
 #import "WILRecordingManager.h"
 
+#import <DEBandPassFilter.h>
 #import <DEDelayFilter.h>
 #import <DEDistortionFilter.h>
 #import <DEReverbFilter.h>
@@ -75,8 +76,8 @@
         
         self.loop1.channelIsMuted = NO;
         
-        self.customFilters = @[@{@"name": @"Delay",
-                                 @"filter": @(WILAudioFilterCustomDelay)},
+        self.customFilters = @[@{@"name": @"Bandpass",
+                                 @"filter": @(WILAudioFilterCustomBandPass)},
                                @{@"name": @"Distortion",
                                  @"filter": @(WILAudioFilterCustomDistortion)},
                                @{@"name": @"Reverb",
@@ -412,24 +413,20 @@
 #pragma mark - Public Methods
 
 - (void)dismiss {
-    // TODO: dismiss me
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Private Methods
 
 - (void)changeAudioFilterWithFilterData:(NSDictionary *)filterData {
     
-    if (self.currentAudioFilter) {
-        [self.audioController removeFilter:self.currentAudioFilter];
-        self.currentAudioFilter = nil;
-    }
-    
+    // get new filter
     AEAudioUnitFilter *newFilter;
     WILAudioFilter customFilter = [[filterData objectForKey:@"filter"] integerValue];
     
     switch (customFilter) {
-        case WILAudioFilterCustomDelay:
-            newFilter = [DEDelayFilter filterWithAudioController:self.audioController];
+        case WILAudioFilterCustomBandPass:
+            newFilter = [DEBandpassFilter filterWithAudioController:self.audioController];
             break;
             
         case WILAudioFilterCustomDistortion:
@@ -449,9 +446,20 @@
             break;
     }
     
-    self.currentAudioFilter = newFilter;
-    
-    [self.audioController addFilter:newFilter];
+    // if there is a new filter, remove the old & add it
+    // else just remove old
+    if ([self.currentAudioFilter class] != [newFilter class]) {
+        
+        [self.audioController removeFilter:self.currentAudioFilter];
+        
+        self.currentAudioFilter = newFilter;
+        
+        [self.audioController addFilter:self.currentAudioFilter];
+        
+    } else if (self.currentAudioFilter) {
+        [self.audioController removeFilter:self.currentAudioFilter];
+        self.currentAudioFilter = nil;
+    }
     
     NSLog(@"self.audioController.filters: %@",self.audioController.filters);
 }
