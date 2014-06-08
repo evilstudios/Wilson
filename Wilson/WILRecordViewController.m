@@ -334,6 +334,7 @@
 
 - (void)dealloc {
     [self.filterPicker removeObserver:self forKeyPath:@"selectedFilter"];
+    [_audioController removeObserver:self forKeyPath:@"numberOfInputChannels"];
 }
 
 #pragma mark - Oscilliscope
