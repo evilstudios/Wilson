@@ -147,6 +147,9 @@
     
     
     self.view.backgroundColor = [UIColor blackColor];
+    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"record-background"]];
+    iv.frame = self.view.bounds;
+    [self.view addSubview:iv];
     
     [self scopeUISetup];
     [self padViewSetup];
