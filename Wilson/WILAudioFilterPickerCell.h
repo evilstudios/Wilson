@@ -10,4 +10,5 @@
 
 @interface WILAudioFilterPickerCell : UICollectionViewCell
 @property (nonatomic, readonly) UILabel *filterLabel;
+@property (nonatomic) BOOL filterSelected;
 @end

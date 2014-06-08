@@ -18,7 +18,6 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
 ////////////////////////////////////////////////////////////////////////////////
 
 @interface WILAudioFilterPickerController ()
-
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -93,12 +92,21 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     
     cell.filterLabel.text = [[self.filters objectAtIndex:indexPath.row] objectForKey:@"name"];
     
+    NSDictionary *cellFilter = [self.filters objectAtIndex:indexPath.row];
+    cell.filterSelected = (cellFilter == self.selectedFilter);
+    
     return cell;
 }
 
 #pragma mark - UICollectionView Delegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    WILAudioFilterPickerCell *cell = (WILAudioFilterPickerCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    
+    for (WILAudioFilterPickerCell *visibleCell in collectionView.visibleCells) {
+        visibleCell.filterSelected = (visibleCell == cell) ? !visibleCell.filterSelected : NO;
+    }
     
     self.selectedFilter = [self.filters objectAtIndex:indexPath.row];
     

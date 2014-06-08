@@ -35,4 +35,13 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    self.contentView.alpha = (self.filterSelected) ? 0.5 : 1.0;
+}
+
+- (void)setFilterSelected:(BOOL)filterSelected {
+    _filterSelected = filterSelected;
+    [self setNeedsLayout];
+}
+
 @end
