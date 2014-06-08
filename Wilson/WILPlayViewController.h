@@ -14,4 +14,7 @@
 - (void)play:(PFObject *)object;
 - (void)stopPlaying;
 
+@property (nonatomic, retain) AEAudioController *audioController;
+
+
 @end

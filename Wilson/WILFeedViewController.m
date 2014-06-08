@@ -290,6 +290,9 @@ static NSString * const reuseIdentifier = @"Cell";
 # pragma mark Header delegate methods
 
 - (void)openRecordUI {
+    
+    [self.playController stopPlaying];
+    
     WILRecordViewController *vc = [[WILRecordViewController alloc] initWithNibName:nil bundle:nil];
     [self presentViewController:vc animated:YES completion:^{
         NSLog(@"Presented %@", vc);

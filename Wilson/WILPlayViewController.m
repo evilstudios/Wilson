@@ -11,7 +11,7 @@
 #import "TPOscilloscopeLayer.h"
 
 @interface WILPlayViewController ()
-@property (nonatomic, retain) AEAudioController *audioController;
+
 @property (nonatomic, retain) AEAudioFilePlayer *loop;
 @property (nonatomic) PFObject *object;
 
