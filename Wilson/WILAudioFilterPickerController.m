@@ -39,6 +39,7 @@ NSString *const kAudioFilterPickerCellIdentifier = @"kAudioFilterPickerCellIdent
     // Do any additional setup after loading the view.
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
+    self.collectionView.backgroundColor = [UIColor clearColor];
     
     [self.collectionView registerClass:[WILAudioFilterPickerCell class] forCellWithReuseIdentifier:kAudioFilterPickerCellIdentifier];
 }

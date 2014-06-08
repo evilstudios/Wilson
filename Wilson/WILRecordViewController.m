@@ -145,6 +145,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.view.backgroundColor = [UIColor clearColor];
     
     self.view.backgroundColor = [UIColor blackColor];
     UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"record-background"]];
@@ -165,6 +166,7 @@
     self.recordButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_recordButton setTitle:@"Record" forState:UIControlStateNormal];
     [_recordButton setTitle:@"Stop" forState:UIControlStateSelected];
+    [_recordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_recordButton addTarget:self action:@selector(record:) forControlEvents:UIControlEventTouchUpInside];
     _recordButton.frame = CGRectMake(0, 300, 100, 44);
     _recordButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
@@ -173,6 +175,7 @@
     self.playButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_playButton setTitle:@"Play" forState:UIControlStateNormal];
     [_playButton setTitle:@"Stop" forState:UIControlStateSelected];
+    [_playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_playButton addTarget:self action:@selector(play:) forControlEvents:UIControlEventTouchUpInside];
     _playButton.frame = CGRectMake(110,300,100,44);
     _playButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
@@ -180,6 +183,7 @@
     // upload button
     self.uploadButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.uploadButton setTitle:@"Upload" forState:UIControlStateNormal];
+    [self.uploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.uploadButton addTarget:self action:@selector(uploadAndDismiss) forControlEvents:UIControlEventTouchUpInside];
     self.uploadButton.frame = CGRectMake(220,300,100,44);
     self.uploadButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
@@ -188,6 +192,7 @@
     // dismiss button
     self.dismissButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [self.dismissButton setTitle:@"Dismiss" forState:UIControlStateNormal];
+    [self.dismissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.dismissButton addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
     self.dismissButton.frame = CGRectMake(110,350,100,44);
     self.dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
@@ -345,7 +350,7 @@
 - (void)scopeUISetup
 {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
-    headerView.backgroundColor = [UIColor blackColor];
+    headerView.backgroundColor = [UIColor clearColor];
     
     self.outputOscilloscope = [[TPOscilloscopeLayer alloc] initWithAudioController:_audioController];
     _outputOscilloscope.frame = CGRectMake(0, 0, headerView.bounds.size.width, CGRectGetHeight(headerView.frame));
@@ -355,7 +360,7 @@
     
     self.inputOscilloscope = [[TPOscilloscopeLayer alloc] initWithAudioController:_audioController];
     _inputOscilloscope.frame = CGRectMake(0, 0, headerView.bounds.size.width, CGRectGetHeight(headerView.frame));
-    _inputOscilloscope.lineColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+    _inputOscilloscope.lineColor = [UIColor colorWithWhite:1.0 alpha:0.3];
     [headerView.layer addSublayer:_inputOscilloscope];
     [_audioController addInputReceiver:_inputOscilloscope];
     [_inputOscilloscope start];
