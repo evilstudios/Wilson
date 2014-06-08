@@ -59,6 +59,7 @@
             <size key="customSize" width="320" height="170"/>
             <connections>
                 <outlet property="downVote" destination="wDl-VQ-h31" id="wys-5d-Vy2"/>
+                <outlet property="nameLabel" destination="6to-k2-C7H" id="Y0k-cM-Et4"/>
                 <outlet property="textLabel" destination="gtF-Ld-jt6" id="sy7-JS-rVa"/>
                 <outlet property="upVote" destination="axX-YX-y0S" id="Csj-Zf-Vqc"/>
             </connections>

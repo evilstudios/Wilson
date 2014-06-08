@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UIButton *upVote;
 @property (weak, nonatomic) IBOutlet UIButton *downVote;
+@property (weak, nonatomic) IBOutlet UIButton *nameLabel;
 
 @property (weak, nonatomic) WILFeedViewController *delegate;
 @property (weak, nonatomic) PFObject *object;
