@@ -31,6 +31,8 @@
         
         self.filterLabel.font = [UIFont boldSystemFontOfSize:17];
         
+        self.contentView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:.7];
+        
     }
     return self;
 }

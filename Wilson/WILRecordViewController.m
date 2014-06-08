@@ -144,13 +144,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor clearColor];
-    
-    self.view.backgroundColor = [UIColor blackColor];
-    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"record-background"]];
-    iv.frame = self.view.bounds;
-    [self.view addSubview:iv];
+    {
+        UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"record-background"]];
+        iv.frame = self.view.bounds;
+        [self.view addSubview:iv];
+    }
     
     [self scopeUISetup];
     [self padViewSetup];

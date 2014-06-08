@@ -16,6 +16,8 @@
     if (self) {
         // Initialization code
         self.turnedOn = NO; // force call to custom setter
+        
+        self.layer.cornerRadius = 12;
     }
     return self;
 }
