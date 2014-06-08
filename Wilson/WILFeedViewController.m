@@ -117,6 +117,10 @@ static NSString * const reuseIdentifier = @"Cell";
     return UIStatusBarStyleLightContent;
 }
 
+//- (BOOL)prefersStatusBarHidden {
+//    return YES;
+//}
+
 /*
 #pragma mark - Navigation
 
