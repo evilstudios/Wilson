@@ -248,7 +248,8 @@ static NSString * const reuseIdentifier = @"Cell";
     [[WILRecordingManager sharedManager] vote:WILRecordingVoteDown forRecordingID:object.objectId completionHandler:^(BOOL succeeded, NSError *error) {
         if(error == nil && succeeded == YES) {
             object[@"downVotes"] = @([object[@"downVotes"] integerValue] + 1);
-            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            WILCell *cell = (WILCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+            cell.object = object;
         } else if(error) {
             
         } else {
