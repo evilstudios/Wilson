@@ -158,6 +158,10 @@
     [self playbackButtonSetup];
 }
 
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - Recording
 
 - (void)playbackButtonSetup {
