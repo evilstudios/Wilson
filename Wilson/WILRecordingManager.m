@@ -48,8 +48,8 @@ const NSString *kRecording = @"Recording";
 }
 
 - (NSString *)someName {
-    NSArray *names = @[@"cat",@"dog",@"cow",@"house",@"car",@"bat",@"salmon",@"igloo",@"cactus",@"monkey"];
-    NSArray *adjs = @[@"happy",@"sad",@"scary",@"big",@"small",@"horny",@"tasty",@"dangerous",@"sparkling"];
+    NSArray *names = @[@"cat",@"dog",@"cow",@"house",@"car",@"bat",@"salmon",@"igloo",@"cactus",@"monkey",@"panda",@"snail",@"cup"];
+    NSArray *adjs = @[@"happy",@"sad",@"scary",@"big",@"small",@"horny",@"tasty",@"dangerous",@"sparkling",@"slippery",@"bold"];
     
     NSString *str = [NSString stringWithFormat:@"%@ %@", adjs[arc4random()%adjs.count], names[arc4random()%names.count]];
     
